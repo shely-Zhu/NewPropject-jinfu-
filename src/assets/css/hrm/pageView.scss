@@ -1,0 +1,145 @@
+
+@import '../../../mixins/echarts/drawTable.scss';
+
+.content-content {
+  // position: absolute;
+  // overflow-y: scroll;
+  width: 100%;
+  // top: 0;
+  // left: 0;
+  // right: 0;
+  // bottom: -20px;
+  height: calc(100% - 2.25rem);
+  overflow-y: scroll;
+}
+
+.content{
+	height: 100%;
+	width: 100%;
+
+    // padding-top: 2.6rem;
+	// padding-bottom: 2.2rem;
+	// padding-bottom: 2.8rem;
+
+	.mint-tab-container{
+
+		height: 100%;
+		width: 100%;
+
+		height: auto !important;
+		overflow: auto !important;
+		// overflow-y: scroll;
+		//padding-bottom: 4px;
+        padding-bottom: 1rem;
+
+        .mint-tab-container-wrap{
+
+        	height: 100%;
+        	width: 100%;
+
+        	
+
+        	.mint-tab-container-item{
+        		height: 100%;
+        		width: 100%;
+        		position: relative;
+        	}
+
+        	.view{
+        		height: 100%;
+        		width: 100%;
+        		position: relative;
+        	}
+        }
+
+	}
+}
+
+.tab{
+	height: 2.25rem;
+	width: 100%;
+	background: $cor-fff5ea;
+	// position: fixed;
+	//position: absolute;
+	// transform: translateZ(0);
+ //    -webkit-transform: translateZ(0);
+	bottom: 0;
+	left: 0;
+	z-index: 100;
+	position: relative;
+	display: none;
+
+	.leftTab, .rightTab{
+		width: 1.35rem;
+		height: 1.2rem;
+		top: 0.5rem;
+		position: absolute;
+		color: $cor-fff;
+		text-align: center;
+		line-height: 1.2rem;
+		font-size: 1.2rem;
+
+		.iconfont{
+			vertical-align: middle;
+			transform: scale(0.7);
+		    display: block;
+		    height: 100%;
+		}
+	}
+
+	.leftTab{
+		background: $cor-ffe6d4;
+		left : 0;
+		border-radius:0px 0.6rem 0.6rem 0px;
+	}
+
+	.rightTab{
+		right: 0;
+		background: $cor-ff6415;
+		border-radius: 0.6rem 0px 0px 0.6rem;
+	}
+	.moreColor{
+		background: $cor-ff6415;
+	}
+	.lastColor{
+		background: $cor-ffe6d4;
+	}
+
+	.mint-tabbar{
+		margin-left: 1.65rem;
+		margin-right: 1.65rem;
+		background: transparent;
+		height: 100%;
+		padding-top: 0.5rem;
+
+		.mint-tab-item{
+			height: 1.2rem;
+			line-height: 1.2rem;
+			// padding-left: 0.7rem;
+			// padding-right: 0.7rem;
+			background: $cor-ffe6d4;
+			margin-right: 0.25rem;
+			color: $cor-ff6415;
+			border-radius: 0.6rem;
+			text-align: center;
+			// font-size: 0.6rem;
+		    padding: 0;
+		    // padding-top: 0.26rem;
+
+			&:last-child{
+				margin-right: 0;
+			}
+
+			&.is-selected{
+				background: $cor-ff6415;
+				color: $cor-fff;
+			}
+
+			.mint-tab-item-label{
+				font-size: 0.6rem;
+				margin-top: 0.31rem;
+			}
+		}
+	}
+}
+

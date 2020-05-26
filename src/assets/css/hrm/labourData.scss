@@ -1,0 +1,54 @@
+
+.labourPage{
+
+	.headCon{
+
+		.imgBg{
+			height: 4.0rem;
+			background: url('../../img/hrm/tk.png');
+			background-size: 100% 100%;
+		}
+
+		.txt_2{
+			font-size: 1.2rem;
+			padding-top: 0.8rem;
+			font-weight: bold;
+		}
+
+		.midCon{
+			margin-top: 1.0rem;
+
+			.left, .right{
+				background: $cor-fff;
+				box-shadow: $commonShadow;
+
+				.echartsCon{
+					height: 8.4rem;
+				}
+			}
+			.midConTop{
+				margin-bottom: 0.6rem;
+			}
+		}
+	}
+	.companyInfoCus{
+		.wrapper{
+			.echartsCon{
+				margin-top: 0;
+				height: 15.2rem;
+			}
+		}
+	}
+
+	.groupEchelonCus{
+		.echartsCon{
+			height: 14.15rem;
+		}
+	}
+
+	.registerCus{
+		.echartsCon{
+			height: 15.3rem;
+		}
+	}
+}

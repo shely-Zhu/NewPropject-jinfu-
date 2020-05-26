@@ -1,0 +1,206 @@
+
+.achievementPage{
+
+	.headCon{
+
+		.imgBg{
+			height: 4.0rem;
+			background: url('../../img/hrm/tk.png');
+			background-size: 100% 100%;
+		}
+
+		.txt_2{
+			font-size: 1.2rem;
+			padding-top: 0.8rem;
+			font-weight: bold;
+		}
+
+		.midCon{
+			margin-top: 1.0rem;
+
+			.left, .right{
+				background: $cor-fff;
+				box-shadow: $commonShadow;
+				padding-bottom: 0.7rem;
+
+				.num_1{
+					margin-top: 0.8rem;
+					font-size: 1rem;
+				}
+
+				.txt{
+					margin-top: 0.4rem;
+					height: 1.2rem;
+
+					&.line{
+						&:after{
+							content: '';
+							margin-left: 1.0rem;
+							margin-right: 0.75rem;
+							display: block;
+							border: 1px dashed #E8E6E9;
+							margin-top: 0.45rem;
+							opacity:0.6;
+						}
+					}
+				}
+
+				.num_2{
+					font-size: 1.2rem;
+					height: 1.2rem;
+				}
+
+				.chg{
+					margin-top: 0.65rem;
+				}
+
+				.leftChg, .rightChg{
+					width: 50%;
+
+					.chgTxt{
+						font-size: 0.6rem;
+						height: 0.6rem;
+						color: $cor-92918e;
+						margin-top: 0.5rem;
+					}
+					// .num{
+					// 	color: #999;
+					// }
+				}
+
+				.leftChg{
+					float: left;
+					position: relative;
+
+					&:after{
+						content: '';
+						display: block;
+						float: right;
+						border-right: 1px dashed #E8E6E9;
+						opacity: 0.6;
+						height: 100%;
+					    position: absolute;
+					    right: 0;
+					    top: 0;
+					}
+					
+				}
+
+				.rightChg{
+					float: right;
+				}
+			}
+		}
+	}
+	.mint-tab-item{
+		padding-top: 0.05rem !important;
+	}
+	.productTypeDistribution{
+		.echartsCon{
+			margin-top: 0 !important;
+			height: 20.5rem;
+		}
+	}
+
+	.annualPerformance{
+		.echartsCon{
+			// height: 13.5rem;
+			height: 17.25rem;
+			margin-top: 0.5rem !important;
+		}
+	}
+	.trafficDistribution{
+		.echartsCon{
+			// height: 87%;
+			height: 15.4rem;
+		}
+	}
+	.trafficDistribution{
+		.wrapper{
+			height: 17.95rem;
+		}
+		.echartsCon{
+			height: 87%;
+		}
+	}
+	.monthlyPerformanceTrend{
+		.wrapper{
+			height: 17.95rem;
+		}
+		.echartsCon{
+			height: 87%;
+		}
+	}
+
+	.TopYearPerformance{
+		.echartsCon{
+			// height: 13.5rem;
+			height: 19.0rem;
+		}
+	}
+
+	// .show{
+	// 	display:block;
+	// }
+
+	.yearPerformanceTrend{
+		.echartsCon{
+			// height: 18.8rem;
+			height: 10.6rem;
+		}
+	}
+
+	.midCon{
+		.chg{
+			font-size: 0.65rem;
+			color: $cor-ec4935;
+			font-weight: bold;
+
+			.up, .down{
+				
+				.img{
+					display: inline-block;
+					vertical-align: middle;
+					width: 0.45rem;
+					height: 0.6rem;
+					
+				}
+				
+			}
+			//向上箭头
+			.up{
+				color: $cor-ec4935;
+
+				.img{
+					background: url('../../img/hrm/u.png');
+					background-size: 100%;
+					background-repeat: no-repeat;
+				}
+				.num{
+					color: $cor-ec4935;
+				}
+
+			}
+
+			.down{
+				color: $cor-37B170;
+
+				.img{
+					background: url('../../img/hrm/d.png');
+					background-size: 100%;
+					background-repeat: no-repeat;
+				}
+				.num{
+					color: $cor-37B170;
+				}
+			}
+		}
+	}
+
+	.num{
+		display: inline-block;
+		max-width: 84%;
+		word-break: break-all;
+		color: #999;
+	}
+}

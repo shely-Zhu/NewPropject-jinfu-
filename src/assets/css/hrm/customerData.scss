@@ -1,0 +1,91 @@
+
+.customerPage{
+	.mint-tab-item{
+		padding-top: 0.05rem !important;
+	}
+	.headCon{
+
+		.imgBg{
+			height: 4.0rem;
+			background: url('../../img/hrm/tk.png');
+			background-size: 100% 100%;
+		}
+
+		.txt_2{
+			font-size: 1.2rem;
+			padding-top: 0.8rem;
+			font-weight: bold;
+		}
+		.midCon{
+			margin-top: 1.0rem;
+
+			.left, .right{
+				background: $cor-fff;
+				box-shadow: $commonShadow;
+
+				.echartsCon{
+					// height: 7.45rem;
+					height: 8.4rem;
+				}
+			}
+			.midConTop{
+				margin-bottom: 0.6rem;
+			}
+		}
+	}
+	.show{
+		display:block;
+	}
+	.serviceCus{
+		.wrapper{
+			.echartsCon{
+				height: 11rem;
+				// width: 99%;
+				// margin: 0 auto;
+			}
+		}
+	}
+	.dealCus{
+		.wrapper{
+			.echartsCon{
+				// height: 15.5rem;
+				height: 14.45rem;
+				// width: 99%;
+				// margin: 0 auto;
+			}
+		}
+	}
+
+	.typeCus{
+		.wrapper{
+			.echartsCon{
+				height: 13.2rem;
+				// height: 15.5rem;
+				// width: 99%;
+				// margin: 0 auto;
+			}
+		}
+	}
+
+	.perAndOrgCus{
+		.wrapper{
+			.echartsCon{
+				height: 13.75rem;
+				// height: 15.5rem;
+				// width: 99%;
+				// margin: 0 auto;
+			}
+		}
+	}
+
+	.groupCus{
+		.wrapper{
+			.echartsCon{
+				height: 17.25rem;
+				// height: 15.5rem;
+				// width: 99%;
+				// margin: 0 auto;
+			}
+		}
+	}
+}
