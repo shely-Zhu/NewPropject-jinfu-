@@ -4,9 +4,12 @@
     @Date：2020-5-26
  -->
 
-
 <template>
   <div>
+    <page-title title="会员活动" :headerSetting="headerSetting" @headerClickCallBack="headerClickCallBack">
+        <span slot="header_right">右边</span>
+    </page-title>
+
     <div class="nav">
       <mt-button size="small" @click.native.prevent="active = 'tab-container1'">
         tab 1
@@ -45,12 +48,26 @@
 </template>
  
 <script>
+
+import pageTitle from './common/pageTitle'
+
+
 export default {
   name: 'page-tab-container',
+  components: {pageTitle},
   data() {
     return {
-      active: 'tab-container1'
+      active: 'tab-container1',
+      //头部的设置参数
+      headerSetting: {
+        needProcessSelf: "right"
+      }
     };
+  },
+  methods:{
+    headerClickCallBack(type){
+      alert("自定义的" + type)
+    }
   },
   watch: {
     active(val, oldVal){
