@@ -15,8 +15,7 @@ function getLocalIp() {
         var iface = osNet[devName];
         for (var i = 0; i < iface.length; i++) {
             var alias = iface[i];
-            if (alias.family === 'IPv4' && (devName == '本地连接' || devName == '以太网' || devName == '以太网 2' || devName == "WLAN" || devName == '无线网络连接' || devName == '本地连接 2' || devName == '以太网 12' || devName == '以太网 11' )) {
-                console.log('当前本地ip：' + alias.address);
+            if(alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal){
                 return alias.address;
             }
         }
@@ -75,8 +74,8 @@ module.exports = {
 
     proxyTable: {
       '/api': {
-        // target: 'http://'+localIp+':8558/', //本地环境
-         target: 'http://172.16.163.54:8030/',//理顾宝-开发环境
+        target: 'http://'+localIp+':8558/', //本地环境
+        //  target: 'http://172.16.163.54:8030/',//理顾宝-开发环境
         // target:'http://172.16.163.68:8311/',//理顾宝-测试环境
         // target:'http://richgoh5.uata.haomalljf.com', //预生产
         changeOrigin: true,
