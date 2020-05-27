@@ -1,7 +1,7 @@
 <!--
-    邀请好友页面
+    理财-理财师详情页面
     @Author：bashuang
-    @Date：20200525
+    @Date：20200526
  -->
 <template>
   <div class="manager-box">
@@ -19,7 +19,7 @@
         <div class="right-name">白鹭资管</div>
         <div class="introduce">有近十年金融</div>
         <!-- 虚线间隔线 -->
-        <img class="dashed-line" src="../assets/img/dashed_line.png" alt="">
+        <img class="dashed-line" src="../../assets/img/dashed_line.png" alt="">
         <!-- 下---名片信息 -->
         <ul class="card-message">
           <li class="message message1">备案：111</li>
@@ -62,14 +62,14 @@ export default {
     return {
       active:'manager-tab1',
       reportList:[
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        // {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},{img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'}
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},{img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'}
       ],
       isFixed:false,//是否固定tab的类名
       isSticky:false, //是否粘性定位的class
@@ -95,12 +95,12 @@ export default {
     },
     // 滚动监听事件
     handleScroll(){
-      let height = document.getElementById('pageTitle').clientHeight;
-        if (this.$refs.touchstone.getBoundingClientRect().top <= height ) {
-            this.isFixed = true;
-        } else {
-            this.isFixed = false;
-        }
+      // let height = document.getElementById('pageTitle').clientHeight;
+      //   if (this.$refs.touchstone.getBoundingClientRect().top <= height ) {
+      //       this.isFixed = true;
+      //   } else {
+      //       this.isFixed = false;
+      //   }
       //判断苹果和安卓
       if( !window.appIsIOS ){
         //安卓手机，可以使用这种办法
@@ -131,7 +131,7 @@ export default {
     width:17.25rem;
     height: 9.775rem;
     margin:.75rem auto ;
-    background: url('../assets/img/Me_card-bg.png') no-repeat center;
+    background: url('../../assets/img/Me_card-bg.png') no-repeat center;
     background-size: 100% 100%;
     position: relative;
     .head-img-wrap{
@@ -248,7 +248,7 @@ export default {
       .mint-tab-item.is-selected{
         color: #272727;
         padding-top:.45rem;
-        background: url('../assets/img/erji.png') no-repeat center bottom 0.1px;
+        background: url('../../assets/img/erji.png') no-repeat center bottom 0.1px;
         background-size: 1.25rem .15rem
       }
     }
