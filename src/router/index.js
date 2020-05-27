@@ -17,7 +17,7 @@ const managerDetail = r => require.ensure([], () => r(require('@/pages/manage/ma
 const memberActivitiesList = r => require.ensure([], () => r(require('@/components/memberActivitiesList.vue')), 'chunkname5');
 
 // 我的-设置-关于
-const aboutHome = r => require.ensure([], () => r(require('@/pages/mine/aboutHome.vue')), 'chunkname7');
+// const aboutHome = r => require.ensure([], () => r(require('@/pages/mine/aboutHome.vue')), 'chunkname7');
 // 我的-设置-关于-隐私政策
 const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutSecret.vue')), 'chunkname8');
 // 我的-设置-关于-服务协议
@@ -72,15 +72,15 @@ export default new Router({
         keepAlive: true
       }
     },
-    {
-      path: '/aboutHome',
-      name: 'aboutHome',
-      component: aboutHome,
-      meta: {
-        title: '关于',
-        keepAlive: true
-      }
-    },
+    // {
+    //   path: '/aboutHome',
+    //   name: 'aboutHome',
+    //   component: aboutHome,
+    //   meta: {
+    //     title: '关于',
+    //     keepAlive: true
+    //   }
+    // },
     {
       path: '/aboutSecret',
       name: 'aboutSecret',

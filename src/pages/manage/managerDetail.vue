@@ -6,6 +6,7 @@
 <template>
   <div class="manager-box">
     <!-- 标题 -->
+    <page-title id="pageTitle" title="管理人详情"></page-title>
     <div id="pageTitle"></div>
     <!-- 卡片 -->
     <div class="card-box">
@@ -40,43 +41,65 @@
           <mt-tab-item id="manager-tab2" @click.native="changeActive('manager-tab2')">研究报告</mt-tab-item>
         </mt-tabbar>
       </div>
-      <!-- 分类内容 -->
-      <mt-tab-container v-model="active">
-        <mt-tab-container-item id="manager-tab1" class="containt-left">
-          内容
-        </mt-tab-container-item>
-        <mt-tab-container-item id="manager-tab2" class="containt-right">
-          <div class="report-list" v-for="(item,index) in reportList" :key="index">
-            <div class="report-img"><img :src="item.img" alt=""></div>
-            <div class="report-tit">{{item.title}}</div>
-            <div class="report-time">{{item.time}}</div>
-          </div>
-        </mt-tab-container-item>
-      </mt-tab-container>
+      <!-- 分类内容 mint-ui  loadmore -->
+        <mt-tab-container v-model="active">
+          <!-- 投资策略 -->
+          <mt-tab-container-item id="manager-tab1" class="containt-left">
+            内容
+          </mt-tab-container-item>
+          <!-- 研究报告 -->
+          
+          <mt-tab-container-item id="manager-tab2" class="containt-right">
+              <mt-loadmore id='refresh' :top-method="loadTop" ref="loadmore1">
+                  <div 
+                    v-infinite-scroll="loadMore"
+                    infinite-scroll-disabled="isloadMore"
+                    infinite-scroll-immediate-check="true"
+                    infinite-scroll-distance="20">
+                      <div class="report-list" v-for="(item,index) in reportList" :key="index">
+                        <div class="report-img"><img :src="item.img" alt=""></div>
+                        <div class="report-tit">{{item.title}}</div>
+                        <div class="report-time">{{item.time}}</div>
+                      </div>
+                  </div>   
+              </mt-loadmore>
+              <!--显示加载中状态-->
+              <load-more v-if="loadMoreing"></load-more>
+              <!-- <div class="loadingBox" v-if="loadMoreing">
+                  <mt-spinner type="snake" color="#FF8637"></mt-spinner>
+              </div> -->
+          </mt-tab-container-item>
+        </mt-tab-container>
     </div>
   </div>
 </template>
 <script>
+import pageTitle from '../../components/common/pageTitle'
+import loadMore from '../../components/common/loadMore'
 export default {
   data() {
     return {
       active:'manager-tab1',
       reportList:[
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},
-        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'},{img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题肯德基拉升的kjsghkhgkjsdkjfkdslhgkjdhsg寒暑假了快递费监考老师开封府几十块两地分居聊点啥',time:'2020-09-09'}
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
+        {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},{img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'}
       ],
       isFixed:false,//是否固定tab的类名
       isSticky:false, //是否粘性定位的class
+      isloadMore:false, //是否可以上拉加载
+      loadMoreing:true, //上拉加载显示的加载圈
+      a:[]
     };
   },
-  components: {},
+  components: {pageTitle,loadMore},
   mounted() {
+    // this.$refs.loadmore.onTopLoaded();
     //判断苹果和安卓
     if( window.appIsIOS ){
       this.isSticky = true;
@@ -93,14 +116,23 @@ export default {
       this.isFixed = false;
       this.isSticky = false;
     },
+    // 下拉刷新
+    loadTop() {
+        console.log('下拉刷新')
+    },
+    // 上拉加载
+    loadMore() {
+      console.log("上拉加载")
+        this.isloadMore = true
+    },
     // 滚动监听事件
     handleScroll(){
-      // let height = document.getElementById('pageTitle').clientHeight;
-      //   if (this.$refs.touchstone.getBoundingClientRect().top <= height ) {
-      //       this.isFixed = true;
-      //   } else {
-      //       this.isFixed = false;
-      //   }
+      let height = document.getElementById('pageTitle').clientHeight;
+      if (this.$refs.touchstone.getBoundingClientRect().top <= height ) {
+        this.isFixed = true;
+      } else {
+        this.isFixed = false;
+      }
       //判断苹果和安卓
       if( !window.appIsIOS ){
         //安卓手机，可以使用这种办法
@@ -122,6 +154,14 @@ export default {
   height: 100%;
   background-color: #F3F5F7;
   overflow: auto;
+  .pTitle{
+    position: fixed;
+    left:0;
+    top:0;
+    height: 2.2rem;
+    z-index: 999;
+    width: 100%;
+  }
   .card-box{
     width: 100%;
     height: auto;
@@ -217,10 +257,9 @@ export default {
   }
   /* tab标签 */
   .switch-tab-wrap{
-    width: 100%;
+    width: 100%; 
     height: auto;
     position: relative;
-    overflow: auto;
     .switch-tab-sticky{
       width: 100%;
       height: 2rem;
@@ -282,7 +321,7 @@ export default {
     }
     /* ---右--- */
     .containt-right{
-      padding:.425rem 1.55rem 1.65rem .725rem;
+      padding:.425rem 1.55rem 0 .725rem;
       background: #FFFFFF;
       .report-list{
         padding-top:1.175rem;
