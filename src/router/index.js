@@ -17,7 +17,7 @@ const InviteFriends = r => require.ensure([], () => r(require('@/components/Invi
 const ManagerDetail = r => require.ensure([], () => r(require('@/components/managerDetail.vue')), 'chunkname5');
 
 // 会员活动列表
-const MemberActivitiesList = r => require.ensure([], () => r(require('@/components/memberActivitiesList.vue')), 'chunkname5');
+const memberActivitiesList = r => require.ensure([], () => r(require('@/components/memberActivitiesList.vue')), 'chunkname5');
 
 
 Vue.use(Router)
@@ -61,9 +61,9 @@ export default new Router({
       }
     },
     {
-      path:'/MemberActivitiesList',
-      name: 'MemberActivitiesList',
-      component: MemberActivitiesList,
+      path:'/memberActivitiesList',
+      name: 'memberActivitiesList',
+      component: memberActivitiesList,
       meta: {
         title: '会员活动列表',
         keepAlive: true
