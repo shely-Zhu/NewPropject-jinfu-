@@ -19,6 +19,11 @@ const ManagerDetail = r => require.ensure([], () => r(require('@/components/mana
 // 会员活动列表
 const MemberActivitiesList = r => require.ensure([], () => r(require('@/components/memberActivitiesList.vue')), 'chunkname5');
 
+// 会员权益
+// const membershipInterests = r => require.ensure([], () => r(require('@/components/membershipInterests.vue')), 'chunkname6');
+// 会员权益详情
+const membershipDetails = r => require.ensure([], () => r(require('@/components/membershipDetails.vue')), 'chunkname7');
+
 
 Vue.use(Router)
 
@@ -66,6 +71,16 @@ export default new Router({
       component: MemberActivitiesList,
       meta: {
         title: '会员活动列表',
+        keepAlive: true
+      }
+    },
+    
+    {
+      path:'/membershipDetails',
+      name: 'membershipDetails',
+      component: membershipDetails,
+      meta: {
+        title: '会员权益详情',
         keepAlive: true
       }
     }
