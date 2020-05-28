@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 //接口路径  默认配置一个api
-var urlWebhttp ="/api";
+var urlWebhttp ="/web";
 
 
 var type = "POST";
@@ -25,7 +25,8 @@ var urlStrs = {
     customerDetailUrl: urlWebhttp + '/customer/v3.3.5/customerDetail',
     // 更新转发任务完成状态
     finishForwardTaskUrl: urlWebhttp + '/task/v3.3.5/finishForwardTask',
-
+    // 查询单条文章(APPCMS后台)
+    getArticleUrl: urlWebhttp + '/content/frontend/getArticle',
 }
 export  default urlStrs
 
