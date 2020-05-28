@@ -27,6 +27,8 @@ const membershipDetails = r => require.ensure([], () => r(require('@/components/
 const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutSecret.vue')), 'chunkname8');
 // 我的-设置-关于-服务协议
 const aboutServiceAgreement= r => require.ensure([], () => r(require('@/pages/mine/aboutServiceAgreement.vue')), 'chunkname9');
+// 发现-视频医生
+const videoDoctor= r => require.ensure([], () => r(require('@/pages/discovery/videoDoctor.vue')), 'chunkname10');
 
 Vue.use(Router)
 
@@ -110,6 +112,15 @@ export default new Router({
       component: aboutServiceAgreement,
       meta: {
         title: '服务协议',
+        keepAlive: true
+      }
+    },
+    {
+      path: '/videoDoctor',
+      name: 'videoDoctor',
+      component: videoDoctor,
+      meta: {
+        title: '视频医生',
         keepAlive: true
       }
     }
