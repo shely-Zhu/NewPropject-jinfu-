@@ -3,8 +3,9 @@
     @Author：史芸瑞
     @Date：2020-5-26
     @desc：以插槽的形式对外开放，支持自定义局部样式与点击回调。
-    如需自定义点击事件处理，请将needProcessSelf设置为想要自定义处理的位置。同时在组件中接收 headerClickCallBack 
-    并指向自己的处理函数。
+    自定义设置请在headerSetting中传值，目前支持两个属性
+        1.needProcessSelf：如需自定义点击事件处理，设置为想要自定义处理的位置。同时在组件中接收 headerClickCallBack 并指向自己的处理函数。
+        2.backType：返回模式。目前支持 返回上一个H5 返回App和返回指定连接
     @example：memberActivitiesList.vue
  -->
 <template>
@@ -55,7 +56,7 @@ export default {
         }
     },
     methods: {
-        // des: 点击事件的处理
+        // desc: 点击事件的处理
         // param1: 点击的区域， left：左边  center：中间  right：右边
         processClick(type){
             if (this.headerSetting.needProcessSelf == type){
