@@ -1,0 +1,40 @@
+// 页面顶部header的样式文件
+
+.pageTitle {
+    height: 2.2rem;
+    z-index: 999;
+    .pTitle{
+        display: flex;
+        justify-content: space-between;
+        color: rgb(51, 51, 51);
+        font-size: .8rem;
+        word-break: break-all;
+        width: 100%;
+        background-color: #fff;
+        height: 100%;
+        line-height: 2.2rem;
+        border-bottom: 0.5px solid #ddd;
+    }
+
+    .left{
+        width: 2rem;
+        text-align: center
+    }
+
+    .title{
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-left: auto;
+        margin-right: auto;
+        font-weight: 600;
+        font-size: .85rem;
+        text-align: center;
+    }
+
+    .right {
+        width: 2rem;
+        text-align: center
+    }
+}

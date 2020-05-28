@@ -1,164 +1,85 @@
 <!--
     页面title模板
-    title: 标题名称
-    rankNum:右侧排名图标和文字显示，不传，不显示右侧图标
+    @Author：史芸瑞
+    @Date：2020-5-26
+    @desc：以插槽的形式对外开放，支持自定义局部样式与点击回调。
+    如需自定义点击事件处理，请将needProcessSelf设置为想要自定义处理的位置。同时在组件中接收 headerClickCallBack 
+    并指向自己的处理函数。
+    @example：memberActivitiesList.vue
  -->
 <template>
     <div id='pageTitle' class="pageTitle">
         <div class="pTitle" ref="pTitle">
-            <span class="iconfont back" @click="back" htmdEvt='back_btn'>&#xe605;</span>
-            <h2 class="title">{{title}}</h2>
+            <div class="left" @click="processClick('left')">
+                <!-- 以插槽形式对外开放，支持自定义。-->
+                <slot name="header_left">
+                    <span class="iconfont back" htmdEvt='back_btn'>&#xe605;</span>
+                </slot>
+            </div>
+            <div class="center" @click="processClick('center')">
+                <!-- 以插槽形式对外开放，支持自定义。-->
+                <slot name="header_center">
+                    <h2 class="title">{{title}}</h2>
+                </slot>
+            </div>
+            <div class="right" @click="processClick('right')">
+                <!-- 以插槽形式对外开放，支持自定义。默认右边不展示 -->
+                <slot name="header_right"></slot>
+            </div>
         </div>
     </div>
 </template>
 <script>
+
+import "../../assets/css/common/pagetitle.scss";
+
 export default {
     name: 'pageTitle',
     props: {
-        title: { //调整暂无数据图片的位置
+        title: { //标题
             type: String,
         },
-        backUrl:{ //返回按钮地址
-            type: String,
-            default: '-1'
+        headerSetting: {//头部的设置信息
+            needProcessSelf:{ //是否需要父组件自己处理点击事件。默认不需要。left：处理左边、right：处理右边、center：处理中间
+                type: String,
+                default: ""
+            },
+            backType: {//点击返回键的返回模式。"back"：返回上一个页面（默认）、 "backApp"：返回AppNative、"xxx/xxx/xxx":具体返回的路径
+                type: String,
+                default: "back"
+            },
         },
-        backParams:{ //返回按钮传参
-            type: Object,
-            default () {
-                return {}
-            }
-        }
     },
     data() {
         return {
         }
     },
-    // mounted(){
-    //     //设置pageTitle的高度
-    //     debugger;
-    //     this.$refs.pgTitle.style.height = this.$refs.pTitle.style.height;
-    // },
     methods: {
-        back(){
-            /*
-            * 会出现的情况：其他应用跳转任务管理详情页，点击返回要关闭详情页面
-            * 处理：在详情页获取URL信息，获取isSkip字段信息，有的话说明是其他应用跳转过来的，点击返回按钮时调用closePage原生方法
-            *       没有的话说明就是任务管理内部自己跳转
-            *       其他页面没有设置isSkip参数，应该是不存在，排除对其他页面的影响
-            * */
-           console.log(this.backParams,'backParams')
-           if(this.backUrl == 'close'){ //关闭页面
-               window.jsObj.colsePage();
-           }else if(this.backUrl == '-1'){ //返回上一级
-               this.$router.go(-1);
-           }else if(this.backUrl){ //返回指定路径，传指定的参数
-               this.$router.push({path:this.backUrl, query:this.backParams})
-           }
-            // let isSkip = sessionStorage.getItem('isSkip');
-            // let SelectTab = sessionStorage.getItem('SelectTab')
-            // console.log('isSkip==' + isSkip);
-            // if (isSkip == 'NO' || !isSkip) {
-            //     if(this.title == '任务管理'){
-
-            //     }if(SelectTab == 1 || SelectTab == 2 && this.title == '任务详情'){
-            //         this.$router.push({path:'/', query:{SelectTab: SelectTab}})
-            //     }else{
-
-            //     }
-            // } else if (isSkip == 'YES') {
-            //     window.jsObj.colsePage();
-            // } else {
-
-            // }
-        }
+        // des: 点击事件的处理
+        // param1: 点击的区域， left：左边  center：中间  right：右边
+        processClick(type){
+            if (this.headerSetting.needProcessSelf == type){
+                //自己处理点击的回调函数，触发父组件中的headerClickCallBack属性
+                this.$emit("headerClickCallBack", this.headerSetting.needProcessSelf)
+                return false;
+            }
+            if (type == "left"){
+                console.log(this.headerSetting);
+                //左侧点击事件，默认为返回上一层。根据backType来具体处理
+                if (this.headerSetting.backType){
+                    if (this.headerSetting.backType == "backApp"){
+                        //返回原生 需要沟通返回调用函数 特殊处理
+                    } else {
+                        //跳转到具体URL 特殊处理
+                    }
+                } else {
+                    //返回上一个h5页面
+                    this.$router.go(-1);
+                }
+            }
+        },
+        
     },
 };
 
 </script>
-
-<style lang="scss">
-
-.pageTitle {
-    position: fixed;
-    /*position: relative;*/
-    height: 2.2rem;
-    z-index: 999;
-    .pTitle{
-        // padding: 0.8rem 0.6rem;
-        color: rgb(51, 51, 51);
-        font-size: .8rem;
-        word-break: break-all;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        left: 0;
-        z-index: 100;
-        background-color: #fff;
-        height: 2.2rem;
-        line-height: 2.2rem;
-        border-bottom: 0.5px solid #ddd;
-    }
-
-    .back{
-        font-size: 100%;
-        position: absolute;
-        left: 0.6rem;
-    }
-
-    .title{
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 86%;
-        margin-left: auto;
-        margin-right: auto;
-        font-weight: 600;
-        font-size: .85rem;
-        text-align: center;
-    }
-
-    // &:before {
-    //     content: '';
-    //     display: inline-block;
-    //     width: .2rem;
-    //     height: .65rem;
-    //     background: rgb(255, 107, 0);
-    //     position: absolute;
-    //     top: 1rem;
-    //     left: 0rem;
-    // }
-
-    // .pth2 {
-    //     white-space: nowrap;
-    //     overflow: hidden;
-    //     text-overflow: ellipsis;
-    // }
-
-    // .pt87 {
-    //     width: 86%;
-    // }
-
-    .ptIcon {
-        position: absolute;
-        width: 13%;
-        top: 0.3rem;
-        right: 0.6rem;
-        text-align: center;
-
-        .ptrank {
-            display: inline-block;
-            font-size: 0.5rem;
-            color: #666;
-        }
-
-        .ptSvg {
-            width: 1.1rem;
-            height: 1rem;
-
-        }
-
-    }
-
-}
-
-</style>
