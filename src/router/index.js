@@ -16,12 +16,19 @@ const managerDetail = r => require.ensure([], () => r(require('@/pages/manage/ma
 // 会员活动列表
 const memberActivitiesList = r => require.ensure([], () => r(require('@/components/memberActivitiesList.vue')), 'chunkname5');
 
+// 会员权益
+// const membershipInterests = r => require.ensure([], () => r(require('@/components/membershipInterests.vue')), 'chunkname6');
+// 会员权益详情
+const membershipDetails = r => require.ensure([], () => r(require('@/components/membershipDetails.vue')), 'chunkname6');
+
 // 我的-设置-关于
 // const aboutHome = r => require.ensure([], () => r(require('@/pages/mine/aboutHome.vue')), 'chunkname7');
 // 我的-设置-关于-隐私政策
 const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutSecret.vue')), 'chunkname8');
 // 我的-设置-关于-服务协议
 const aboutServiceAgreement= r => require.ensure([], () => r(require('@/pages/mine/aboutServiceAgreement.vue')), 'chunkname9');
+// 发现-视频医生
+const videoDoctor= r => require.ensure([], () => r(require('@/pages/discovery/videoDoctor.vue')), 'chunkname10');
 
 Vue.use(Router)
 
@@ -71,6 +78,15 @@ export default new Router({
         title: '会员活动列表',
         keepAlive: true
       }
+    },    
+    {
+      path:'/membershipDetails',
+      name: 'membershipDetails',
+      component: membershipDetails,
+      meta: {
+        title: '会员权益详情',
+        keepAlive: true
+      }
     },
     // {
     //   path: '/aboutHome',
@@ -96,6 +112,15 @@ export default new Router({
       component: aboutServiceAgreement,
       meta: {
         title: '服务协议',
+        keepAlive: true
+      }
+    },
+    {
+      path: '/videoDoctor',
+      name: 'videoDoctor',
+      component: videoDoctor,
+      meta: {
+        title: '视频医生',
         keepAlive: true
       }
     }

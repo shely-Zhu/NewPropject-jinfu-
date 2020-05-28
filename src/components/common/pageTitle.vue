@@ -9,7 +9,7 @@
  -->
 <template>
     <div id='pageTitle' class="pageTitle">
-        <div class="pTitle" ref="pTitle">
+        <div :class="[headerSetting.needBorder ? 'pTitle' : 'pTitle noBorder']" ref="pTitle">
             <div class="left" @click="processClick('left')">
                 <!-- 以插槽形式对外开放，支持自定义。-->
                 <slot name="header_left">
@@ -40,6 +40,7 @@ export default {
             type: String,
         },
         headerSetting: {//头部的设置信息
+            needBorder: true,
             needProcessSelf:{ //是否需要父组件自己处理点击事件。默认不需要。left：处理左边、right：处理右边、center：处理中间
                 type: String,
                 default: ""
