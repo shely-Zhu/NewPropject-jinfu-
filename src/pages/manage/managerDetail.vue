@@ -6,7 +6,7 @@
 <template>
   <div class="manager-box">
     <!-- 标题 -->
-    <page-title id="pageTitle" title="管理人详情"></page-title>
+    <page-title id="pageTitle" title="管理人详情" :headerSetting="headerSetting" @headerClickCallBack="headerClickCallBack"></page-title>
     <div id="pageTitle"></div>
     <!-- 卡片 -->
     <div class="card-box">
@@ -43,32 +43,34 @@
       </div>
       <!-- 分类内容 mint-ui  loadmore -->
         <mt-tab-container v-model="active">
-          <!-- 投资策略 -->
+          <!-- 左   投资策略 -->
           <mt-tab-container-item id="manager-tab1" class="containt-left">
-            内容
+            <div v-if="!noData">
+              内容
+            </div>
+            <!-- 默认图 -->
+            <default-image v-else></default-image>
           </mt-tab-container-item>
-          <!-- 研究报告 -->
-          
+          <!-- 右   研究报告 -->
           <mt-tab-container-item id="manager-tab2" class="containt-right">
               <mt-loadmore id='refresh' :top-method="loadTop" ref="loadmore1">
                   <div 
                     v-infinite-scroll="loadMore"
                     infinite-scroll-disabled="isloadMore"
                     infinite-scroll-immediate-check="true"
-                    infinite-scroll-distance="20">
+                    infinite-scroll-distance="20" v-if="!noData">
                       <div class="report-list" v-for="(item,index) in reportList" :key="index">
                         <div class="report-img"><img :src="item.img" alt=""></div>
                         <div class="report-tit">{{item.title}}</div>
                         <div class="report-time">{{item.time}}</div>
                       </div>
                   </div>
-                  <bottom-line></bottom-line>  
+                  <!-- 默认图 -->
+                  <default-image v-else></default-image>
+                  <bottom-line v-if="isNoMore"></bottom-line>  
               </mt-loadmore>
-              <!--显示加载中状态-->
+              <!--显示上拉加载中状态-->
               <load-more v-if="loadMoreing"></load-more>
-              <!-- <div class="loadingBox" v-if="loadMoreing">
-                  <mt-spinner type="snake" color="#FF8637"></mt-spinner>
-              </div> -->
           </mt-tab-container-item>
         </mt-tab-container>
     </div>
@@ -78,10 +80,14 @@
 import bottomLine from '../../components/common/bottomLine'
 import pageTitle from '../../components/common/pageTitle'
 import loadMore from '../../components/common/loadMore'
+import defaultImage from '../../components/common/defaultImage'
 export default {
   data() {
     return {
-      active:'manager-tab1',
+      headerSetting: { //头部的设置参数
+        needProcessSelf: "left"
+      }, 
+      active:'manager-tab1', //mint-ui的tabbar所需绑定表述
       reportList:[
         {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
         {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
@@ -97,11 +103,11 @@ export default {
       isloadMore:false, //是否可以上拉加载
       loadMoreing:false, //上拉加载显示的加载圈
       isNoMore:false, //上拉加载是否已无更多数据
+      noData:false,//接口无数据，显示无数据图片
     };
   },
-  components: {pageTitle,loadMore,bottomLine},
+  components: {pageTitle,loadMore,bottomLine,defaultImage},
   mounted() {
-    // this.$refs.loadmore.onTopLoaded();
     //判断苹果和安卓
     if( window.appIsIOS ){
       this.isSticky = true;
@@ -113,7 +119,11 @@ export default {
     window.removeEventListener('scroll', this.handleScroll, true);
   },
   methods: {
-    // 点击标签
+    // 顶部返回按钮方法
+    headerClickCallBack(type){
+      console.log(type)
+    },
+    // 点击tab标签
     changeActive(active){
       this.isFixed = false;
       this.isSticky = false;
@@ -154,7 +164,7 @@ export default {
 .manager-box{
   width: 100%;
   height: 100%;
-  background-color: #F3F5F7;
+  background-color: #FFFFFF;
   overflow: auto;
   .pTitle{
     position: fixed;
@@ -168,6 +178,7 @@ export default {
     width: 100%;
     height: auto;
     overflow: hidden;
+    background: #F3F5F7
   }
   .card-wrap{
     width:17.25rem;
@@ -319,7 +330,7 @@ export default {
       font-size: .7rem;
       word-break:break-all;
       word-wrap:break-word;
-      overflow: auto;
+      height: auto;
     }
     /* ---右--- */
     .containt-right{
