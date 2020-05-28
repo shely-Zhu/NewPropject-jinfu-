@@ -4,9 +4,9 @@
     @Date：20200525
  -->
 <template>
-  <div class="page-box">
+  <div class="friend-box">
     <!-- 返回按钮 -->
-    <img class="close-friend" @click="closePage()" src="../assets/img/icon_fanhui.png" alt="">
+    <img class="close-friend" @click="closePage()" src="../../assets/img/icon_fanhui.png" alt="">
     <!-- 卡片 -->
     <div class="bg-card">
       <!-- 姓名 -->
@@ -19,15 +19,15 @@
       </div>
       <div class="bottom-label" v-if="managerList && managerList.length>0">
         <span class="money-name">您的理财师：{{managerName.name}}{{managerName.number}}</span>
-        <span class='choose-btn' @click="switchManager()" v-if="managerList && managerList.length > 1">点击切换理财师<img class="more-img" src="../assets/img/icon_more.png" alt=""></span>
+        <span class='choose-btn' @click="switchManager()" v-if="managerList && managerList.length > 1">点击切换理财师<img class="more-img" src="../../assets/img/icon_more.png" alt=""></span>
       </div>
       <div style="height: 1.35rem;" v-else></div>
     </div>
     <!-- 分享按钮 -->
     <div class="share-button">
-      <div class="pyq-btn"><img src="../assets/img/icon_pyq.png" alt=""><span>分享到朋友圈</span></div>
+      <div class="pyq-btn"><img src="../../assets/img/icon_pyq.png" alt=""><span>分享到朋友圈</span></div>
       <div class="line"></div>
-      <div class="wechat-btn"><img src="../assets/img/icon_wechat.png" alt=""><span>分享给好友</span></div>
+      <div class="wechat-btn"><img src="../../assets/img/icon_wechat.png" alt=""><span>分享给好友</span></div>
     </div>
     <!-- 理财师选择列表，点击切换理财师时显示 -->
     <ul class="manager-wrap" v-if="isShowList">
@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-
+import { Indicator,MessageBox } from 'mint-ui';
 export default {
   data() {
     return {
@@ -73,10 +73,29 @@ export default {
     }
   },
   components: {},
-  mounted() {
-    
+  created() {
+    // this.getInitData()
   },
   methods: {
+    // 获取接口数据
+    getInitData(){
+      Indicator.open()
+      this.$axiosHttp.http({
+        url: this.$httpConfig.Url,
+        params: {},
+        method:'GET'
+      } ,
+      (res) => { //接口成功0000
+        Indicator.close(); //调取成功后关闭加载圈
+      },(res) => { // 接口错误4000
+        Indicator.close();
+        let message = res.data.message ? res.data.message : '系统开小差啦，请联系系统管理员';
+        MessageBox('提示', message); 
+      },(res) => { // 接口返回1000
+        Indicator.close();
+          
+      });
+    },
     // 点击关闭页面
     closePage(){
       console.log("CLOSEPAGE")
@@ -99,16 +118,17 @@ export default {
 </script>
 
 <style lang="scss" spoced>
-.page-box{
+.friend-box{
   width: 100%;
   height: 100%;
   position: fixed;
   left:0;
   top:0;
   z-index:1;
-  background: url('../assets/img/friend_bg.png') no-repeat center;
+  background: url('../../assets/img/friend_bg.png') no-repeat center;
   background-size: 100% 100%;
   padding-top:4.6rem;
+
   /* 关闭页面按钮 */
   .close-friend{
     position: fixed;
@@ -122,7 +142,7 @@ export default {
     display: block;
     width: 15.5rem;
     /* height: 19.1rem; */
-    background: url('../assets/img/friend_card.png') no-repeat center;
+    background: url('../../assets/img/friend_card.png') no-repeat center;
     background-size: 100% 100%;
     margin:0 auto .75rem;
     padding-top:1rem;
@@ -165,7 +185,7 @@ export default {
     .bottom-label{
       width: 100%;
       height: 2.45rem;
-      background: url('../assets/img/bottom-label.png') no-repeat center;
+      background: url('../../assets/img/bottom-label.png') no-repeat center;
       background-size: 14.65rem 100%;
       display: flex;
       align-items: center;
@@ -202,7 +222,7 @@ export default {
   .share-button{
     width: 15.5rem;
     height: 4.5rem;
-    background: url('../assets/img/fenxiang_bg.png') no-repeat center;
+    background: url('../../assets/img/fenxiang_bg.png') no-repeat center;
     background-size: 100% 100%;
     margin: 0 auto;
     display: flex;
