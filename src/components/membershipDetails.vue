@@ -59,8 +59,8 @@ export default {
             {
                 "id": "1",
                 "enjoy": "0",
-                "rightName": "度假疗养",
-                "iconUnlock": "/mine/static/img/home_icon_rxsm@2x.png",
+                "rightName": "金融产品诊断",
+                "iconUnlock": "../assets/img/membership/quanyi_icon_big@2x.png",
                 "iconLocked": "1",
                 "content": "集休闲、疗养、观光于一身的健康之旅,精选国内外空气清新,风景优美,各具特色的疗养圣地,配以调理方案,使客户身心放松,消除疲劳、增强体质。恒天财富恒乐汇帮您一键式预约国内外精选酒店及机票,让您在另一座城市,找到家的温馨。1",
                 "linkUrl": "www.baidu.com"
@@ -68,7 +68,7 @@ export default {
                 "id": "1",
                 "enjoy": "0",
                 "rightName": "SPA护理",
-                "iconUnlock": "/mine/static/img/home_icon_gmzt@2x.png",
+                "iconUnlock": "../assets/img/membership/quanyi_icon_big@2x.png",
                 "iconLocked": "1",
                 "content": "集休闲、疗养、观光于一身的健康之旅,精选国内外空气清新,风景优美,各具特色的疗养圣地,配以调理方案,使客户身心放松,消除疲劳、增强体质。恒天财富恒乐汇帮您一键式预约国内外精选酒店及机票,让您在另一座城市,找到家的温馨。2",
                 "linkUrl": "www.baidu.com"
@@ -145,6 +145,7 @@ export default {
             needProcessSelf: "right"
         },
         activeIndex:0, // 选中swiper下标
+        mySwiperM:'', //swipername
         // swiper配置项
          swiperOption: {
             slidesPerView: 'auto',
@@ -155,17 +156,17 @@ export default {
             slidesPerView :'auto',
             resistanceRatio:1,
             initialSlide: 0, //图片滑动到第几个未开始位置
-            // observer:true,//修改swiper自己或子元素时，自动初始化swiper
-            // observeParents:true,//修改swiper的父元素时，自动初始化swiper
+            observer:true,//修改swiper自己或子元素时，自动初始化swiper
+            observeParents:true,//修改swiper的父元素时，自动初始化swiper
             loop: true, //是否循环
             slideActiveClass:'swiper-active',
             on: {
-                slideChangeTransitionStart: function() {
-                    console.log(this.realIndex)
-                    // that.imgIndex = this.realIndex + 1;  //获取轮播图片下标索引；这里有一个坑，之前网上找到的是用activeIndex，但后来网上说的是这个realIndex，原来activeIndex是swiper2.0的；而realIndex是swiper3.0的，（使用realIndex才实现了下标索引）
-                },
-                slideNextTransitionStart: function(){
-                }
+                // slideChangeTransitionStart: function() {
+                //     console.log(this.realIndex)
+                //     // that.imgIndex = this.realIndex + 1;  //获取轮播图片下标索引；这里有一个坑，之前网上找到的是用activeIndex，但后来网上说的是这个realIndex，原来activeIndex是swiper2.0的；而realIndex是swiper3.0的，（使用realIndex才实现了下标索引）
+                // },
+                // slideNextTransitionStart: function(){
+                // }
 
             }
         }
@@ -177,12 +178,13 @@ export default {
       swiperSlide
   },
   computed: {
-      swiper() {
+      mySwiper() {
         return this.$refs.mySwiper.swiper;  
       }
   },
   mounted() {
-      console.log('Current Swiper instance object', this.swiper)
+    //   console.log('Current Swiper instance object', this.mySwiper)
+      this.mySwiperM = this.mySwiper
       this.contentBoxRightName = this.items[0].rightName
       this.contentBoxContent = this.items[0].content
   },
@@ -191,7 +193,7 @@ export default {
     onSlideNextTransitionStart(){
          this.items.forEach((item,index)=>{
               this.activeIndex = index;
-            if(this.swiper.realIndex == index){
+            if(this.mySwiperM.realIndex == index){
                 this.contentBoxRightName = item.rightName
                 this.contentBoxContent = item.content
 
@@ -229,7 +231,8 @@ export default {
     .membershipDetailsSilderBox{
         .membershipDetailsHeaderBox{
             height: 5.55rem;
-            // margin-right: .875rem
+            position: relative;
+            left: .5rem;
         }
         // swiper
         .swiper-container{
@@ -238,15 +241,14 @@ export default {
         }
         // swiper中单个slider
         .swiper-slide {
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 3.7rem;
+            height: 3.7rem;
         }
         // swiper中图标
         .goods {
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 3.7rem;
+            height: 3.7rem;
             text-align: center;
-            // font-size: .rem;
             background: url("../assets/img/membership/quanyi_icon_big@2x.png") no-repeat center center;
             // background-size:100% 100%;
             border-radius: .4rem;
@@ -258,8 +260,8 @@ export default {
             justify-content: center;
             flex-flow: column;
             img{
-                width: .52rem;
-                height: .43rem;
+                width: 1.875rem;
+                height: 1.875rem;
                 // display: inline-block;
             }
             p{
@@ -322,9 +324,12 @@ export default {
     }
     // 滚动选中样式
     .swiper-active{
-        transform: scale(1.4);
+        transform: scale(1.3);
         transition-duration: 300ms;
-        margin-right: 1rem
+        margin-right: 1rem;
+        p{
+           transform: scale(0.9); 
+        }
     }    
 }
 
