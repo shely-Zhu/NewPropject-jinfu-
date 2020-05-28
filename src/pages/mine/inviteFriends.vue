@@ -15,7 +15,8 @@
       <div class="share-intro">邀请好友，分享精彩</div>
       <!-- 二维码 -->
       <div class="share-code">
-        <img class="code-img" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg" alt="">
+        <div id="qrcode" ref="qrCodeUrl"></div>
+        <!-- <img class="code-img" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg" alt=""> -->
       </div>
       <div class="bottom-label" v-if="managerList && managerList.length>0">
         <span class="money-name">您的理财师：{{managerName.name}}{{managerName.number}}</span>
@@ -44,6 +45,7 @@
 </template>
 <script>
 import { Indicator,MessageBox } from 'mint-ui';
+import QRCode from 'qrcodejs2'
 export default {
   data() {
     return {
@@ -73,27 +75,55 @@ export default {
     }
   },
   components: {},
-  created() {
-    // this.getInitData()
+  mounted() {
+    this.getInitData()
   },
   methods: {
+    // 生成二维码
+    createQRcode(){
+      // 营销活动连接
+      // '/web/account/oldRecommendNew'; // 微信公众号获取参数
+      // recommend_test = "https://172.16.162.190:8011",
+      // recommend_haomaojf = "https://wx.uata.haomalljf.com/api/brand/index.html?activityId=qwJ0pXBGtwHBxJaeUOAq%2Bw%3D%3D&channel=3",
+      // recommend_online = "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3";
+
+      // shareUrl = site_url.marketCampaign_url + '&shareCustomerNo=' + that.customerNo + '&shareEmpCode=' + num;
+      let qrcode = new QRCode(this.$refs.qrCodeUrl, {
+        text: 'https://www.baidu.com/', // 需要转换为二维码的内容
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      })
+    },
     // 获取接口数据
     getInitData(){
+      let that = this
+      let activeUrl = "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3"
       Indicator.open()
       this.$axiosHttp.http({
-        url: this.$httpConfig.Url,
+        url: this.$httpConfig.oldRecommendNewUrl,
         params: {},
-        method:'GET'
+        method:'POST'
       } ,
       (res) => { //接口成功0000
         Indicator.close(); //调取成功后关闭加载圈
+        if (json.data.recommendable == 1) {
+						// 未实名认证，提示去认证
+
+					} else {
+						// 已实名认证
+						aesEncrypt = json.data.aesEncrypt;
+						//拼分享出去的链接
+						shareUrl = activeUrl + '&shareCustomerNo=' + that.customerNo + '&shareEmpCode=' + num;
+            // 生成二维码
+            that.createQRcode(shareUrl)
+					}
       },(res) => { // 接口错误4000
         Indicator.close();
         let message = res.data.message ? res.data.message : '系统开小差啦，请联系系统管理员';
         MessageBox('提示', message); 
       },(res) => { // 接口返回1000
         Indicator.close();
-          
       });
     },
     // 点击关闭页面
@@ -173,13 +203,19 @@ export default {
       background: #ffffff;
       margin:0 auto 1.35rem;
       position: relative;
-      padding-top:.25rem;
+      /* padding-top:.25rem; */
       box-sizing: border-box;
-      .code-img{
-        display: block;
-        width: 10.25rem;
-        height: 10.25rem;
-        margin:0 auto;
+      #qrcode{
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        img {
+          width: 10.75rem;
+          height: 10.75rem;
+            background-color: #fff; //设置白色背景色
+            padding: .45rem; // 利用padding的特性，挤出白边
+            box-sizing: border-box;
+        }
       }
     }
     .bottom-label{
@@ -192,7 +228,7 @@ export default {
       justify-content: space-around;
       flex-direction: column;
       box-sizing: border-box;
-      padding:.4rem 0 .4rem;
+      padding:.4rem 0 .35rem;
       font-size: .75rem;
       line-height: .75rem;
       .money-name{
@@ -202,12 +238,13 @@ export default {
         line-height: .75rem;
       }
       .choose-btn{
-        margin-top:.25rem;
-        display: inline-block;
-        height: .66rem;;
-        color: #FFF9F2;
-        font-size: .6rem;
-        line-height: .7rem;
+          margin-top: .25rem;
+          display: flex;
+          height: .66rem;
+          color: #FFF9F2;
+          font-size: .6rem;
+          /* line-height: .7rem; */
+          align-items: center;
       }
       .more-img{
         display: inline-block;
@@ -241,7 +278,7 @@ export default {
       margin:.9rem auto .25rem;
     }
     .pyq-btn{
-      width: 7.7rem;
+      width: 7.68rem;
       height: 100%;
       >span{
         font-weight:400;

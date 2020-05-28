@@ -7,11 +7,9 @@ var urlWebhttp ="/web";
 var type = "POST";
 
 var urlStrs = {
-    //任务管理详情页接口
-    getManagementDetailMsg:urlWebhttp + '/task/queryTaskDetail',  // 任务详情接口
-    detailUrl: urlWebhttp + '/task/v3.3.5/detail',
     // 任务管理首页-列表
     managementListUrl: urlWebhttp + '/task/v3.3.5/list',
+<<<<<<< HEAD
     //完成情况-全部完成情况列表
     finishAllListUrl: urlWebhttp + '/task/v3.3.5/allList',
     // 发送范围
@@ -27,6 +25,8 @@ var urlStrs = {
     finishForwardTaskUrl: urlWebhttp + '/task/v3.3.5/finishForwardTask',
     // 查询单条文章(APPCMS后台)
     getArticleUrl: urlWebhttp + '/content/frontend/getArticle',
+    // 老带新，微信邀请好友
+    oldRecommendNewUrl:'/web/account/oldRecommendNew',
 }
 export  default urlStrs
 
