@@ -61,7 +61,8 @@
                         <div class="report-tit">{{item.title}}</div>
                         <div class="report-time">{{item.time}}</div>
                       </div>
-                  </div>   
+                  </div>
+                  <bottom-line></bottom-line>  
               </mt-loadmore>
               <!--显示加载中状态-->
               <load-more v-if="loadMoreing"></load-more>
@@ -74,6 +75,7 @@
   </div>
 </template>
 <script>
+import bottomLine from '../../components/common/bottomLine'
 import pageTitle from '../../components/common/pageTitle'
 import loadMore from '../../components/common/loadMore'
 export default {
@@ -93,11 +95,11 @@ export default {
       isFixed:false,//是否固定tab的类名
       isSticky:false, //是否粘性定位的class
       isloadMore:false, //是否可以上拉加载
-      loadMoreing:true, //上拉加载显示的加载圈
-      a:[]
+      loadMoreing:false, //上拉加载显示的加载圈
+      isNoMore:false, //上拉加载是否已无更多数据
     };
   },
-  components: {pageTitle,loadMore},
+  components: {pageTitle,loadMore,bottomLine},
   mounted() {
     // this.$refs.loadmore.onTopLoaded();
     //判断苹果和安卓
@@ -321,10 +323,10 @@ export default {
     }
     /* ---右--- */
     .containt-right{
-      padding:.425rem 1.55rem 0 .725rem;
+      padding-top:.425rem;
       background: #FFFFFF;
       .report-list{
-        padding-top:1.175rem;
+        padding:1.175rem 1.55rem 0 .725rem;
         position: relative;
         .report-img{
           width: 5.75rem;
@@ -339,7 +341,7 @@ export default {
         }
         .report-tit{
           position: absolute;
-          left:6.5rem;
+          left:7.25rem;
           top:1.075rem;
           height: 2.5rem;
           width: 9.9rem;
@@ -362,7 +364,7 @@ export default {
           font-weight:400;
           line-height:.925rem;
           position: absolute;
-          left:6.5rem;
+          left:7.25rem;
           top:4.275rem;
         }
       }
