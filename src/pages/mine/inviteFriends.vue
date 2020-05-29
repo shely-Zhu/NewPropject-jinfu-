@@ -15,23 +15,41 @@
       <div class="share-intro">邀请好友，分享精彩</div>
       <!-- 二维码 -->
       <div class="share-code">
-        <img class="code-img" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg" alt="">
+        <div id="qrcode" ref="qrCodeUrl"></div>
+        <!-- <img class="code-img" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg" alt=""> -->
       </div>
       <div class="bottom-label" v-if="managerList && managerList.length>0">
         <span class="money-name">您的理财师：{{managerName.name}}{{managerName.number}}</span>
-        <span class='choose-btn' @click="switchManager()" v-if="managerList && managerList.length > 1">点击切换理财师<img class="more-img" src="../../assets/img/icon_more.png" alt=""></span>
+        <span
+          class="choose-btn"
+          @click="switchManager()"
+          v-if="managerList && managerList.length > 1"
+        >点击切换理财师
+          <img class="more-img" src="../../assets/img/icon_more.png" alt="">
+        </span>
       </div>
       <div style="height: 1.35rem;" v-else></div>
     </div>
     <!-- 分享按钮 -->
     <div class="share-button">
-      <div class="pyq-btn"><img src="../../assets/img/icon_pyq.png" alt=""><span>分享到朋友圈</span></div>
+      <div class="pyq-btn">
+        <img src="../../assets/img/icon_pyq.png" alt="">
+        <span>分享到朋友圈</span>
+      </div>
       <div class="line"></div>
-      <div class="wechat-btn"><img src="../../assets/img/icon_wechat.png" alt=""><span>分享给好友</span></div>
+      <div class="wechat-btn">
+        <img src="../../assets/img/icon_wechat.png" alt="">
+        <span>分享给好友</span>
+      </div>
     </div>
     <!-- 理财师选择列表，点击切换理财师时显示 -->
     <ul class="manager-wrap" v-if="isShowList">
-      <li class="manager-list" v-for="(item,index) in managerList" :key="index" @click="chooseManager(item)">
+      <li
+        class="manager-list"
+        v-for="(item,index) in managerList"
+        :key="index"
+        @click="chooseManager(item)"
+      >
         <div class="border-top" v-if="index!=0"></div>
         <span class="manager">{{item.name}}</span>
         <span class="job-number">{{item.number}}</span>
@@ -43,292 +61,347 @@
   </div>
 </template>
 <script>
-import { Indicator,MessageBox } from 'mint-ui';
+import { Indicator, MessageBox } from "mint-ui";
+import QRCode from "qrcodejs2";
 export default {
   data() {
     return {
-      isShowList:false, //是否显示可选择的理财师列表
-      managerList:[
-        { name:'理财师1', number:'H909097' },
-         { name:'理财师1', number:'H909097' },
-          { name:'理财师1', number:'H909097' },
-           { name:'理财师1', number:'H909097' },
-            { name:'理财师1', number:'H909097' },
-             { name:'理财师1', number:'H909097' },
-              { name:'理财师1', number:'H909097' },
-               { name:'理财师1', number:'H909097' },
-                { name:'理财师1', number:'H909097' },
-                 { name:'理财师1', number:'H909097' },
-                  { name:'理财师1', number:'H909097' },
-                   { name:'理财师1', number:'H909097' },
-                   { name:'理财师1', number:'H909097' },
-                   { name:'理财师1', number:'H909097' },
-                   { name:'理财师1', number:'H909097' },
-                   { name:'理财师1', number:'H909097' },
-                   { name:'理财师1', number:'H909097' },
-                   { name:'理财师1', number:'H909097' },
-                   { name:'理财师2', number:'H909097' },
+      isShowList: false, //是否显示可选择的理财师列表
+      managerList: [
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师1", number: "H909097" },
+        { name: "理财师2", number: "H909097" }
       ],
-      managerName:{ name:'理财师2', number:'H909097' }, //蓝色底标签显示的理财师姓名和工号
-    }
+      managerName: { name: "理财师2", number: "H909097" } //蓝色底标签显示的理财师姓名和工号
+    };
   },
   components: {},
-  created() {
-    // this.getInitData()
+  mounted() {
+    this.getInitData();
   },
   methods: {
-    // 获取接口数据
-    getInitData(){
-      Indicator.open()
-      this.$axiosHttp.http({
-        url: this.$httpConfig.Url,
-        params: {},
-        method:'GET'
-      } ,
-      (res) => { //接口成功0000
-        Indicator.close(); //调取成功后关闭加载圈
-      },(res) => { // 接口错误4000
-        Indicator.close();
-        let message = res.data.message ? res.data.message : '系统开小差啦，请联系系统管理员';
-        MessageBox('提示', message); 
-      },(res) => { // 接口返回1000
-        Indicator.close();
-          
+    // 生成二维码
+    createQRcode() {
+      // 营销活动连接
+      // '/web/account/oldRecommendNew'; // 微信公众号获取参数
+      // recommend_test = "https://172.16.162.190:8011",
+      // recommend_haomaojf = "https://wx.uata.haomalljf.com/api/brand/index.html?activityId=qwJ0pXBGtwHBxJaeUOAq%2Bw%3D%3D&channel=3",
+      // recommend_online = "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3";
+
+      // shareUrl = site_url.marketCampaign_url + '&shareCustomerNo=' + that.customerNo + '&shareEmpCode=' + num;
+      let qrcode = new QRCode(this.$refs.qrCodeUrl, {
+        text: "https://www.baidu.com/", // 需要转换为二维码的内容
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
       });
     },
+    // 获取接口数据
+    getInitData() {
+      let that = this;
+      let activeUrl =
+        "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3";
+      Indicator.open();
+      this.$axiosHttp.http(
+        {
+          url: this.$httpConfig.oldRecommendNewUrl,
+          params: {},
+          method: "POST"
+        },
+        res => {
+          //接口成功0000
+          Indicator.close(); //调取成功后关闭加载圈
+          // if (json.data.recommendable == 1) {
+          //   // 未实名认证，提示去认证
+          // } else {
+          //   // 已实名认证
+          //   aesEncrypt = json.data.aesEncrypt;
+          //   //拼分享出去的链接
+          //   shareUrl =
+          //     activeUrl +
+          //     "&shareCustomerNo=" +
+          //     that.customerNo +
+          //     "&shareEmpCode=" +
+          //     num;
+            // 生成二维码
+            that.createQRcode(shareUrl);
+          // }
+        },
+        res => {
+          // 接口错误4000
+          Indicator.close();
+          let message = res.data.message
+            ? res.data.message
+            : "系统开小差啦，请联系系统管理员";
+          MessageBox("提示", message);
+        },
+        res => {
+          // 接口返回1000
+          Indicator.close();
+        }
+      );
+    },
     // 点击关闭页面
-    closePage(){
-      console.log("CLOSEPAGE")
+    closePage() {
+      console.log("CLOSEPAGE");
     },
     // 点击切换理财师，弹出理财师弹框
-    switchManager(){
-      this.isShowList = true
+    switchManager() {
+      this.isShowList = true;
     },
     // 点击选择理财师
-    chooseManager(item){
-      this.managerName = item //点击的理财师显示在蓝色标签上
-      this.isShowList = false
+    chooseManager(item) {
+      this.managerName = item; //点击的理财师显示在蓝色标签上
+      this.isShowList = false;
     },
     //点击取消，关闭理财师选择列表
-    cancel(){
-      this.isShowList = false
+    cancel() {
+      this.isShowList = false;
     }
   }
 };
 </script>
 
 <style lang="scss" spoced>
-.friend-box{
+.friend-box {
   width: 100%;
   height: 100%;
   position: fixed;
-  left:0;
-  top:0;
-  z-index:1;
-  background: url('../../assets/img/friend_bg.png') no-repeat center;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  background: url("../../assets/img/friend_bg.png") no-repeat center;
   background-size: 100% 100%;
-  padding-top:4.6rem;
+  padding-top: 4.6rem;
 
   /* 关闭页面按钮 */
-  .close-friend{
+  .close-friend {
     position: fixed;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     width: 2.2rem;
     height: 2.2rem;
   }
   /* 卡片 */
-  .bg-card{
+  .bg-card {
     display: block;
     width: 15.5rem;
     /* height: 19.1rem; */
-    background: url('../../assets/img/friend_card.png') no-repeat center;
+    background: url("../../assets/img/friend_card.png") no-repeat center;
     background-size: 100% 100%;
-    margin:0 auto .75rem;
-    padding-top:1rem;
-    .you-name{
+    margin: 0 auto 0.75rem;
+    padding-top: 1rem;
+    .you-name {
       height: 1.55rem;
       text-align: center;
       width: 100%;
       font-size: 1.1rem;
       line-height: 1.55rem;
       font-weight: 600;
-      color:rgba(39,39,39,1);
-      background:linear-gradient(239deg, rgba(187,142,95,1) 0%, rgba(108,69,23,1) 100%);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
+      color: rgba(39, 39, 39, 1);
+      background: linear-gradient(
+        239deg,
+        rgba(187, 142, 95, 1) 0%,
+        rgba(108, 69, 23, 1) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    .share-intro{
+    .share-intro {
       width: 100%;
-      font-size: .7rem;
+      font-size: 0.7rem;
       line-height: 1rem;
       text-align: center;
-      font-weight:400;
-      color:rgba(108,69,23,1);
-      margin-bottom: .75rem;
+      font-weight: 400;
+      color: rgba(108, 69, 23, 1);
+      margin-bottom: 0.75rem;
     }
-    .share-code{
+    .share-code {
       width: 10.75rem;
       height: 10.75rem;
       background: #ffffff;
-      margin:0 auto 1.35rem;
+      margin: 0 auto 1.35rem;
       position: relative;
-      padding-top:.25rem;
+      /* padding-top:.25rem; */
       box-sizing: border-box;
-      .code-img{
-        display: block;
-        width: 10.25rem;
-        height: 10.25rem;
-        margin:0 auto;
+      #qrcode {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        img {
+          width: 10.75rem;
+          height: 10.75rem;
+          background-color: #fff; //设置白色背景色
+          padding: 0.45rem; // 利用padding的特性，挤出白边
+          box-sizing: border-box;
+        }
       }
     }
-    .bottom-label{
+    .bottom-label {
       width: 100%;
       height: 2.45rem;
-      background: url('../../assets/img/bottom-label.png') no-repeat center;
+      background: url("../../assets/img/bottom-label.png") no-repeat center;
       background-size: 14.65rem 100%;
       display: flex;
       align-items: center;
       justify-content: space-around;
       flex-direction: column;
       box-sizing: border-box;
-      padding:.4rem 0 .4rem;
-      font-size: .75rem;
-      line-height: .75rem;
-      .money-name{
-        color:#FFF9F2;
+      padding: 0.4rem 0 0.35rem;
+      font-size: 0.75rem;
+      line-height: 0.75rem;
+      .money-name {
+        color: #fff9f2;
         display: inline-block;
-        height: .75rem;
-        line-height: .75rem;
+        height: 0.75rem;
+        line-height: 0.75rem;
       }
-      .choose-btn{
-        margin-top:.25rem;
-        display: inline-block;
-        height: .66rem;;
-        color: #FFF9F2;
-        font-size: .6rem;
-        line-height: .7rem;
+      .choose-btn {
+        margin-top: 0.25rem;
+        display: flex;
+        height: 0.66rem;
+        color: #fff9f2;
+        font-size: 0.6rem;
+        /* line-height: .7rem; */
+        align-items: center;
       }
-      .more-img{
+      .more-img {
         display: inline-block;
-        width: .66rem;
-        height: .66rem;
-        margin-top:-0.1rem;
+        width: 0.66rem;
+        height: 0.66rem;
+        margin-top: -0.1rem;
       }
     }
   }
 
   /* 分享按钮 */
-  .share-button{
+  .share-button {
     width: 15.5rem;
     height: 4.5rem;
-    background: url('../../assets/img/fenxiang_bg.png') no-repeat center;
+    background: url("../../assets/img/fenxiang_bg.png") no-repeat center;
     background-size: 100% 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     text-align: center;
-    .line{
-      width: .025rem;
+    .line {
+      width: 0.025rem;
       height: 1.35rem;
-      background: #F5EDD8;
-      margin-top:1.15rem;
+      background: #f5edd8;
+      margin-top: 1.15rem;
     }
-    img{
+    img {
       display: block;
       width: 1.75rem;
       height: 1.75rem;
-      margin:.9rem auto .25rem;
+      margin: 0.9rem auto 0.25rem;
     }
-    .pyq-btn{
-      width: 7.7rem;
+    .pyq-btn {
+      width: 7.68rem;
       height: 100%;
-      >span{
-        font-weight:400;
-        font-size: .7rem;
-        color:rgba(255,255,255,1);
-        line-height:1rem;
-        text-shadow:0px 1px 1px rgba(128,81,30,1);
+      > span {
+        font-weight: 400;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 1);
+        line-height: 1rem;
+        text-shadow: 0px 1px 1px rgba(128, 81, 30, 1);
       }
     }
-    .wechat-btn{
-      flex:1;
-      >span{
-        font-weight:400;
-        font-size: .7rem;
-        color:rgba(255,255,255,1);
-        line-height:1rem;
-        text-shadow:0px 1px 1px rgba(128,81,30,1);
+    .wechat-btn {
+      flex: 1;
+      > span {
+        font-weight: 400;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 1);
+        line-height: 1rem;
+        text-shadow: 0px 1px 1px rgba(128, 81, 30, 1);
       }
     }
   }
 
-  /* 理财师选择列表 */    
-  .manager-wrap{
+  /* 理财师选择列表 */
+  .manager-wrap {
     width: 100%;
     height: 19.6rem;
-    background: #FFFFFF;
+    background: #ffffff;
     position: fixed;
-    left:0;
-    bottom:0;
-    overflow:auto;
-    z-index:10;
+    left: 0;
+    bottom: 0;
+    overflow: auto;
+    z-index: 10;
     /* 理财师列表 */
-    .manager-list{
-      padding-left:.75rem;
+    .manager-list {
+      padding-left: 0.75rem;
       width: 100%;
       height: 2.45rem;
       line-height: 2.45rem;
-      .border-top{
+      .border-top {
         height: 1px;
-        background: #E7E9ED;
+        background: #e7e9ed;
       }
-      .manager{
-        height:1rem;
-        font-size:.8rem;
-        font-weight:600;
-        color:rgba(39,39,39,1);
-        line-height:1rem;
-        margin-right: .25rem;
+      .manager {
+        height: 1rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: rgba(39, 39, 39, 1);
+        line-height: 1rem;
+        margin-right: 0.25rem;
       }
-      .job-number{
+      .job-number {
         display: inline-block;
-        padding:0 .25rem;
-        font-size: .55rem;
-        line-height: .75rem;
-        color: #6C4517;
-        background:linear-gradient(220deg,rgba(245,236,213,1) 0%,rgba(240,223,186,1) 100%)
+        padding: 0 0.25rem;
+        font-size: 0.55rem;
+        line-height: 0.75rem;
+        color: #6c4517;
+        background: linear-gradient(
+          220deg,
+          rgba(245, 236, 213, 1) 0%,
+          rgba(240, 223, 186, 1) 100%
+        );
       }
     }
     /* 取消按钮 */
-    .cancel{
+    .cancel {
       width: 100%;
       position: fixed;
-      left:0;
-      bottom:0;
-      background: #F6F6F6;
+      left: 0;
+      bottom: 0;
+      background: #f6f6f6;
       height: 2.45rem;
-      z-index:.275rem;
+      z-index: 0.275rem;
       color: #272727;
-      font-size: .8rem;
-      font-weight:400;
+      font-size: 0.8rem;
+      font-weight: 400;
       line-height: 2.425rem;
-      text-align: center
+      text-align: center;
     }
-    
   }
   /* 黑色遮罩 */
-    .mask{
-      width: 100%;
-      height: 33.35rem;
-      background:rgba(0,0,0,1);
-      opacity:0.6;
-      position: fixed;
-      left:0;
-      top:0;
-      z-index:2
-    }
-
-
+  .mask {
+    width: 100%;
+    height: 33.35rem;
+    background: rgba(0, 0, 0, 1);
+    opacity: 0.6;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
+  }
 }
 </style>

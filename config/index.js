@@ -73,12 +73,15 @@ module.exports = {
     mdDomain: 'http://localhost:9099',
 
     proxyTable: {
-      '/api': {
-        target: 'http://'+localIp+':8558/', //本地环境
+      '/web': {
+        // target: 'http://'+localIp+':8558/', //本地环境
         //  target: 'http://172.16.163.54:8030/',//理顾宝-开发环境
         // target:'http://172.16.163.68:8311/',//理顾宝-测试环境
+         target: 'https://h5.chtwmlocal.com',//股份-联调环境
+        // target:'http://h5.chtwmtest.com',//股份-测试环境
         // target:'http://richgoh5.uata.haomalljf.com', //预生产
         changeOrigin: true,
+        secure: false,
         // pathRewrite: {
         //     '^/api': '/api/'
         // }

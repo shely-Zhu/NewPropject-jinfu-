@@ -28,6 +28,8 @@ const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutS
 // 我的-设置-关于-服务协议
 const aboutServiceAgreement= r => require.ensure([], () => r(require('@/pages/mine/aboutServiceAgreement.vue')), 'chunkname9');
 
+import login from '@/pages/login/login'
+
 Vue.use(Router)
 
 export default new Router({
@@ -38,6 +40,15 @@ export default new Router({
       component: Index,
       meta: {
         title: '首页',
+        keepAlive: true
+      },
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
+      meta: {
+        title: '登录',
         keepAlive: true
       },
     },
@@ -110,6 +121,15 @@ export default new Router({
       component: aboutServiceAgreement,
       meta: {
         title: '服务协议',
+        keepAlive: true
+      }
+    },
+    {
+      path: '/videoDoctor',
+      name: 'videoDoctor',
+      component: () => import(/* webpackChunkName: "discovery" */ '@/pages/discovery/videoDoctor.vue'),
+      meta: {
+        title: '视频医生',
         keepAlive: true
       }
     }
