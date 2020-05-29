@@ -14,7 +14,7 @@ const inviteFriends = r => require.ensure([], () => r(require('@/pages/mine/invi
 const managerDetail = r => require.ensure([], () => r(require('@/pages/manage/managerDetail.vue')), 'chunkname5');
 
 // 会员活动列表
-const memberActivitiesList = r => require.ensure([], () => r(require('@/components/memberActivitiesList.vue')), 'chunkname5');
+const memberActivitiesList = r => require.ensure([], () => r(require('@/pages/memberClub/memberActivitiesList.vue')), 'chunkname5');
 
 // 会员权益
 // const membershipInterests = r => require.ensure([], () => r(require('@/components/membershipInterests.vue')), 'chunkname6');
