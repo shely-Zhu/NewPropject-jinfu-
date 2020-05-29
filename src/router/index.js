@@ -27,8 +27,8 @@ const membershipDetails = r => require.ensure([], () => r(require('@/components/
 const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutSecret.vue')), 'chunkname8');
 // 我的-设置-关于-服务协议
 const aboutServiceAgreement= r => require.ensure([], () => r(require('@/pages/mine/aboutServiceAgreement.vue')), 'chunkname9');
-// 发现-视频医生
-const videoDoctor= () => import(/* webpackChunkName: "discovery" */ '@/pages/discovery/videoDoctor.vue')
+
+import login from '@/pages/login/login'
 
 Vue.use(Router)
 
@@ -40,6 +40,15 @@ export default new Router({
       component: Index,
       meta: {
         title: '首页',
+        keepAlive: true
+      },
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
+      meta: {
+        title: '登录',
         keepAlive: true
       },
     },
@@ -118,7 +127,7 @@ export default new Router({
     {
       path: '/videoDoctor',
       name: 'videoDoctor',
-      component: videoDoctor,
+      component: () => import(/* webpackChunkName: "discovery" */ '@/pages/discovery/videoDoctor.vue'),
       meta: {
         title: '视频医生',
         keepAlive: true
