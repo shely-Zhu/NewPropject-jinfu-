@@ -32,7 +32,7 @@
         <mt-tab-container-item id="tab-container1">
           
           <list-load-more @loadMore="loadMore" @refresh="refresh">
-            <div v-show="!listLoading" v-for="(item) in listInfo2.data.activityVoPageInfo.list" :key="item.id" class="card">
+            <div v-show="!listLoading" v-for="(item) in listInfo1.data.activityVoPageInfo.list" :key="item.id" class="card">
               <div class="activityListBox">
                   <i v-if="item.prizeFlag">{{item.prize}}</i>
                   <img class="lazyload" :src="item.actImgUrl">
@@ -68,7 +68,7 @@
         <mt-tab-container-item id="tab-container3">
         	
           <list-load-more @loadMore="loadMore" @refresh="refresh">
-            <div v-show="!listLoading" v-for="(item) in listInfo2.data.activityVoPageInfo.list" :key="item.id" class="card">
+            <div v-show="!listLoading" v-for="(item) in listInfo3.data.activityVoPageInfo.list" :key="item.id" class="card">
               <div class="activityListBox">
                   <i v-if="item.prizeFlag">{{item.prize}}</i>
                   <img class="lazyload" :src="item.actImgUrl">
@@ -92,9 +92,9 @@
  
 <script>
 
-import pageTitle from './common/pageTitle'
-import listLoadMore from './common/listLoadMore'
-import "../assets/css/memberActivitiesList.scss"
+import pageTitle from '../../components/common/pageTitle'
+import listLoadMore from '../../components/common/listLoadMore'
+import "../../assets/css/memberActivitiesList.scss"
 
 export default {
   components: {pageTitle, listLoadMore},
