@@ -114,9 +114,9 @@ export default {
     },
     // 获取接口数据
     getInitData() {
-      let that = this;
-      let activeUrl =
-        "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3";
+      // let that = this;
+      // let activeUrl =
+      //   "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3";
       Indicator.open();
       this.$axiosHttp.http(
         {
@@ -285,7 +285,6 @@ export default {
         display: inline-block;
         width: 0.66rem;
         height: 0.66rem;
-        margin-top: -0.1rem;
       }
     }
   }

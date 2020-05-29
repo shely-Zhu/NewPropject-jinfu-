@@ -27,8 +27,7 @@ const membershipDetails = r => require.ensure([], () => r(require('@/components/
 const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutSecret.vue')), 'chunkname8');
 // 我的-设置-关于-服务协议
 const aboutServiceAgreement= r => require.ensure([], () => r(require('@/pages/mine/aboutServiceAgreement.vue')), 'chunkname9');
-
-import login from '@/pages/login/login'
+const login = r => require.ensure([], () => r(require('@/pages/login/login.vue')), 'chunkname9');
 
 Vue.use(Router)
 
@@ -97,15 +96,6 @@ export default new Router({
         keepAlive: true
       }
     },
-    // {
-    //   path: '/aboutHome',
-    //   name: 'aboutHome',
-    //   component: aboutHome,
-    //   meta: {
-    //     title: '关于',
-    //     keepAlive: true
-    //   }
-    // },
     {
       path: '/aboutSecret',
       name: 'aboutSecret',

@@ -38,8 +38,10 @@ export default {
         url: this.$httpConfig.loginUrl,
         params: {
           accountType: 1,
-          mobile: this.encryptedData(that.userPhone), //账号
+          mobile: String(that.userPhone), //账号
           password: this.encryptedData(that.phoneCode), //密码
+          channelType: '3',
+          deviceId:'9e2d8ca1eda6e5d695b6b719ed28b3dd',
         }
       },(res) => {
         console.log(res)

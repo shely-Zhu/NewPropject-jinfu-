@@ -85,7 +85,12 @@ module.exports = {
         // pathRewrite: {
         //     '^/api': '/api/'
         // }
-      }
+      },
+      '/app/account/frontend/loginCheckNew': {
+        target: 'https://app.chtwmlocal.com',//股份-联调环境
+        changeOrigin: true,
+        secure: false
+      },
     },
     cssSourceMap: false
   }
