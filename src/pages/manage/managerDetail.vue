@@ -128,6 +128,30 @@ export default {
       this.isFixed = false;
       this.isSticky = false;
     },
+    getManagerDetail(){
+      this.$axiosHttp.http({
+          url: this.$httpConfig.managerDetailUrl,
+          params: {
+            managerId:'1' //管理人id
+          },
+          method: "POST"
+        },
+        res => {
+          //接口成功0000
+          Indicator.close(); //调取成功后关闭加载圈
+        
+        },
+        res => {
+          // 接口错误4000
+          Indicator.close();
+          let message = res.data.message ? res.data.message : "系统开小差啦，请联系系统管理员";
+          MessageBox("提示", message);
+        },
+        res => {
+          // 接口返回1000
+          Indicator.close();
+        })
+    },
     // 下拉刷新
     loadTop() {
         console.log('下拉刷新')
@@ -334,10 +358,10 @@ export default {
     }
     /* ---右--- */
     .containt-right{
-      padding-top:.425rem;
+      padding-top:1.6rem;
       background: #FFFFFF;
       .report-list{
-        padding:1.175rem 1.55rem 0 .725rem;
+        padding:0 1.55rem 1.175rem .725rem;
         position: relative;
         .report-img{
           width: 5.75rem;
@@ -353,7 +377,7 @@ export default {
         .report-tit{
           position: absolute;
           left:7.25rem;
-          top:1.075rem;
+          top:.025rem;
           height: 2.5rem;
           width: 9.9rem;
           color: #272727;
@@ -376,7 +400,7 @@ export default {
           line-height:.925rem;
           position: absolute;
           left:7.25rem;
-          top:4.275rem;
+          top:3.15rem;
         }
       }
     }

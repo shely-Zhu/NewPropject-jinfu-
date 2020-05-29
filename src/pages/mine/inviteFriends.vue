@@ -285,7 +285,6 @@ export default {
         display: inline-block;
         width: 0.66rem;
         height: 0.66rem;
-        margin-top: -0.1rem;
       }
     }
   }
