@@ -96,15 +96,6 @@ export default new Router({
         keepAlive: true
       }
     },
-    // {
-    //   path: '/aboutHome',
-    //   name: 'aboutHome',
-    //   component: aboutHome,
-    //   meta: {
-    //     title: '关于',
-    //     keepAlive: true
-    //   }
-    // },
     {
       path: '/aboutSecret',
       name: 'aboutSecret',

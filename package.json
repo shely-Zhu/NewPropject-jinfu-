@@ -16,6 +16,7 @@
     "echarts": "^4.0.0",
     "es6-promise-polyfill": "^1.2.0",
     "js-base64": "^2.5.1",
+    "jsencrypt": "^3.0.0-rc.1",
     "mint-ui": "^2.2.13",
     "node-sass": "^4.13.1",
     "portfinder": "^1.0.13",
