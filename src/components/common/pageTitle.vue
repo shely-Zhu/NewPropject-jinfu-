@@ -9,7 +9,7 @@
     @example：memberActivitiesList.vue
  -->
 <template>
-    <div id='pageTitle' class="pageTitle">
+    <div id='pageTitle' class="pageTitle" ref="pagetitle">
         <div class="pTitle" ref="pTitle">
             <div class="left" @click="processClick('left')">
                 <!-- 以插槽形式对外开放，支持自定义。-->
@@ -45,9 +45,9 @@ export default {
                 type: String,
                 default: ""
             },
-            backType: {//点击返回键的返回模式。"back"：返回上一个页面（默认）、 "backApp"：返回AppNative、"xxx/xxx/xxx":具体返回的路径
+            backType: {//点击返回键的返回模式。""：返回上一个页面（默认）、 "backApp"：返回AppNative、"xxx/xxx/xxx":具体返回的路径
                 type: String,
-                default: "back"
+                default: ""
             },
         },
     },

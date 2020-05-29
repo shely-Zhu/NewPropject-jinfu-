@@ -49,9 +49,9 @@ import { TabContainer, TabContainerItem } from 'mint-ui';
 Vue.component(TabContainer.name, TabContainer);
 Vue.component(TabContainerItem.name, TabContainerItem);
 
-//顶部导航
-import { Header } from 'mint-ui';
-Vue.component(Header.name, Header);
+//引入下拉刷新和上拉加载
+import { Loadmore } from 'mint-ui';
+Vue.component(Loadmore.name, Loadmore);
 
 import '../static/fonts/font-awesome/css/font-awesome.min.css'
 import './assets/css/common/base.scss';
