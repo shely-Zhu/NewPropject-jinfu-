@@ -19,7 +19,7 @@ const memberActivitiesList = r => require.ensure([], () => r(require('@/componen
 // 会员权益
 // const membershipInterests = r => require.ensure([], () => r(require('@/components/membershipInterests.vue')), 'chunkname6');
 // 会员权益详情
-const membershipDetails = r => require.ensure([], () => r(require('@/components/membershipDetails.vue')), 'chunkname6');
+const membershipDetails = r => require.ensure([], () => r(require('@/pages/mine/membershipDetails.vue')), 'chunkname6');
 
 // 我的-设置-关于
 // const aboutHome = r => require.ensure([], () => r(require('@/pages/mine/aboutHome.vue')), 'chunkname7');
