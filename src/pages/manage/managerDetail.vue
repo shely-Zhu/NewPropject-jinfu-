@@ -13,20 +13,20 @@
       <div class="card-wrap">
         <!-- 头像 -->
         <div class="head-img-wrap">
-          <img class="head-img" v-if="false" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg" alt="">
+          <img class="head-img" v-if="managerDetail.logos.url" :src="managerDetail.logos.url" alt="">
           <span class="head-img nomorl" v-else>白</span>
         </div>
         <!-- 右侧个人信息 -->
-        <div class="right-name">白鹭资管</div>
-        <div class="introduce">有近十年金融</div>
+        <div class="right-name">{{managerDetail.managerName}}</div>
+        <div class="introduce">{{managerDetail.description}}</div>
         <!-- 虚线间隔线 -->
         <img class="dashed-line" src="../../assets/img/dashed_line.png" alt="">
         <!-- 下---名片信息 -->
         <ul class="card-message">
-          <li class="message message1">备案：111</li>
-          <li class="message message2">成立日期：222</li>
-          <li class="message message3">管理规模：333</li>
-          <li class="message message4">核心策略：444</li>
+          <li class="message message1">备案：{{managerDetail.recordNum}}</li>
+          <li class="message message2">成立日期：{{managerDetail.foundTime}}</li>
+          <li class="message message3">管理规模：{{managerDetail.managerScale}}</li>
+          <li class="message message4">核心策略：{{managerDetail.strategy}}</li>
         </ul>
       </div>
     </div>
@@ -104,10 +104,23 @@ export default {
       loadMoreing:false, //上拉加载显示的加载圈
       isNoMore:false, //上拉加载是否已无更多数据
       noData:false,//接口无数据，显示无数据图片
+      managerDetail:{
+        managerName:"管理人",
+        recordNum:'备案号',
+        description:'管理人描述',
+        logos:{
+          url:"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg"
+        },
+        foundTime:'2020-05-15',
+        managerScale:"管理规模",
+        strategy:"核心策略"
+      }
     };
   },
   components: {pageTitle,loadMore,bottomLine,defaultImage},
   mounted() {
+    this.getManagerDetail()
+    this.getPlateData()
     //判断苹果和安卓
     if( window.appIsIOS ){
       this.isSticky = true;
@@ -128,29 +141,46 @@ export default {
       this.isFixed = false;
       this.isSticky = false;
     },
+    // 获取管理人详情
     getManagerDetail(){
-      this.$axiosHttp.http({
-          url: this.$httpConfig.managerDetailUrl,
+      let that = this
+      that.$axiosHttp.http({
+          url: that.$httpConfig.managerDetailUrl,
           params: {
-            managerId:'1' //管理人id
+            managerId:'24' //管理人id
           },
           method: "POST"
-        },
-        res => {
-          //接口成功0000
+        },res => { //接口成功0000
+
           Indicator.close(); //调取成功后关闭加载圈
-        
-        },
-        res => {
-          // 接口错误4000
+        },res => { // 接口错误4000
           Indicator.close();
           let message = res.data.message ? res.data.message : "系统开小差啦，请联系系统管理员";
           MessageBox("提示", message);
-        },
-        res => {
-          // 接口返回1000
+        },res => { // 接口返回1000
           Indicator.close();
         })
+    },
+    // 获取板块文章或列表
+    getPlateData(){
+      let that = this
+      that.$axiosHttp.http({
+        url: that.$httpConfig.managerArticleUrl,
+        params: {
+          forum:69, //板块id
+          name:that.managerDetail.managerName, //管理人姓名
+        },
+        method: "POST"
+      },res => { //接口成功0000
+        
+        Indicator.close(); //调取成功后关闭加载圈
+      },res => { // 接口错误4000
+        Indicator.close();
+        let message = res.data.message ? res.data.message : "系统开小差啦，请联系系统管理员";
+        MessageBox("提示", message);
+      },res => { // 接口返回1000
+        Indicator.close();
+      })
     },
     // 下拉刷新
     loadTop() {
@@ -221,9 +251,10 @@ export default {
       top: 1.2rem;
       background: #FFFFFF;
       text-align: center;
-      line-height: 3.625rem;
+      /* line-height: 3.625rem; */
       font-size:2.15rem;
       font-weight:600;
+      overflow: hidden;
       .head-img{
         display: inline-block;
         width: 100%;
@@ -231,6 +262,7 @@ export default {
       }
       .nomorl{
         color:#ededed;
+        line-height: 3.5rem;
       }
     }
     /* 右边姓名和简介介绍 */

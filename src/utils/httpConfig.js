@@ -19,7 +19,7 @@ var urlStrs = {
     // -------理财---------
     // 管理人详情
     managerDetailUrl: urlWebhttp + '/ms/manager/detail',
-
+    managerArticleUrl: urlWebhttp + '/ms/manager/article',
     
     /************************       发现 start     *******************/
     // 查询单条文章(APPCMS后台)
