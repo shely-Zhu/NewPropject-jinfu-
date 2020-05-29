@@ -28,7 +28,7 @@ const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutS
 // 我的-设置-关于-服务协议
 const aboutServiceAgreement= r => require.ensure([], () => r(require('@/pages/mine/aboutServiceAgreement.vue')), 'chunkname9');
 // 发现-视频医生
-const videoDoctor= r => require.ensure([], () => r(require('@/pages/discovery/videoDoctor.vue')), 'chunkname10');
+const videoDoctor= () => import(/* webpackChunkName: "discovery" */ '@/pages/discovery/videoDoctor.vue')
 
 Vue.use(Router)
 
