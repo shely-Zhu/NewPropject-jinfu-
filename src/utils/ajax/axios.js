@@ -14,8 +14,7 @@ instance.interceptors.response.use(data => {
     var status=data.data.status;
     if(status=='4007'){//登录失效
       // 跳转到临时登录页，原生通过拦截地址跳转到原生的登录
-      // window.location.href = '/tologin.html';
-      alert('登录失败')
+      window.location.href = '#/login';
     }
     else
     {
