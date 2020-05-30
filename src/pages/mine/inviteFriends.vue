@@ -10,21 +10,16 @@
     <!-- 卡片 -->
     <div class="bg-card">
       <!-- 姓名 -->
-      <div class="you-name">意思</div>
+      <div class="you-name" v-if="beseInfo">{{beseInfo.name}}</div>
       <!-- 邀请好友，分享精彩 -->
       <div class="share-intro">邀请好友，分享精彩</div>
       <!-- 二维码 -->
       <div class="share-code">
-        <div id="qrcode" ref="qrCodeUrl"></div>
-        <!-- <img class="code-img" src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg" alt=""> -->
+        <div id="qrcode" ref="qrCodeUrl" v-if="isShowCode"></div>
       </div>
       <div class="bottom-label" v-if="managerList && managerList.length>0">
-        <span class="money-name">您的理财师：{{managerName.name}}{{managerName.number}}</span>
-        <span
-          class="choose-btn"
-          @click="switchManager()"
-          v-if="managerList && managerList.length > 1"
-        >点击切换理财师
+        <span class="money-name">您的理财师：{{managerName.codeName}}{{managerName.empNo}}</span>
+        <span class="choose-btn" v-if="isChoose" @click="switchManager()" >点击切换理财师
           <img class="more-img" src="../../assets/img/icon_more.png" alt="">
         </span>
       </div>
@@ -32,24 +27,19 @@
     </div>
     <!-- 分享按钮 -->
     <div class="share-button">
-      <div class="pyq-btn">
+      <div class="pyq-btn" @click="goToShare('wechatMoments')">
         <img src="../../assets/img/icon_pyq.png" alt="">
         <span>分享到朋友圈</span>
       </div>
       <div class="line"></div>
-      <div class="wechat-btn">
+      <div class="wechat-btn" @click="goToShare('friends')">
         <img src="../../assets/img/icon_wechat.png" alt="">
         <span>分享给好友</span>
       </div>
     </div>
     <!-- 理财师选择列表，点击切换理财师时显示 -->
     <ul class="manager-wrap" v-if="isShowList">
-      <li
-        class="manager-list"
-        v-for="(item,index) in managerList"
-        :key="index"
-        @click="chooseManager(item)"
-      >
+      <li class="manager-list" v-for="(item,index) in managerList" :key="index" @click="chooseManager(item)" >
         <div class="border-top" v-if="index!=0"></div>
         <span class="manager">{{item.name}}</span>
         <span class="job-number">{{item.number}}</span>
@@ -61,12 +51,15 @@
   </div>
 </template>
 <script>
-import { Indicator, MessageBox } from "mint-ui";
+import { Indicator, MessageBox ,Toast } from "mint-ui";
 import QRCode from "qrcodejs2";
 export default {
   data() {
     return {
+      beseInfo:null,//用户基础信息，从getBeseInfo获取
+      isShowCode:true, //是否显示二维码框
       isShowList: false, //是否显示可选择的理财师列表
+      isChoose:false, //是否可点击选择理财师
       managerList: [
         { name: "理财师1", number: "H909097" },
         { name: "理财师1", number: "H909097" },
@@ -88,74 +81,171 @@ export default {
         { name: "理财师1", number: "H909097" },
         { name: "理财师2", number: "H909097" }
       ],
-      managerName: { name: "理财师2", number: "H909097" } //蓝色底标签显示的理财师姓名和工号
+      managerName: {}, //蓝色底标签显示的理财师姓名和工号
+      aesEncrypt:null, //分享加密串
+      activeUrl:"https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3",//营销活动接口地址
+      shareUrl:"",//分享链接
+      isAndroid:false, //是否是安卓
+      isiOS:false, //是否是ios
+      wxShareContent:{}, //分享微信的内容
     };
   },
   components: {},
+  created(){
+    this.getCustBro()
+    this.getBeseInfo()
+    this.getshareContent()
+  },
   mounted() {
-    this.getInitData();
+    // 判断是安卓还是ios
+		let u = navigator.userAgent;
+    this.isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+		this.isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
   },
   methods: {
-    // 生成二维码
-    createQRcode() {
-      // 营销活动连接
-      // '/web/account/oldRecommendNew'; // 微信公众号获取参数
-      // recommend_test = "https://172.16.162.190:8011",
-      // recommend_haomaojf = "https://wx.uata.haomalljf.com/api/brand/index.html?activityId=qwJ0pXBGtwHBxJaeUOAq%2Bw%3D%3D&channel=3",
-      // recommend_online = "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3";
-
-      // shareUrl = site_url.marketCampaign_url + '&shareCustomerNo=' + that.customerNo + '&shareEmpCode=' + num;
-      let qrcode = new QRCode(this.$refs.qrCodeUrl, {
-        text: "https://www.baidu.com/", // 需要转换为二维码的内容
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-      });
-    },
-    // 获取接口数据
-    getInitData() {
-      // let that = this;
-      // let activeUrl =
-      //   "https://wx.chtwm.com/api/brand/index.html?activityId=pWhA5xJTKF4Zfst%2B9ycHqQ%3D%3D&channel=3";
+    // 获取用户基本信息
+    getBeseInfo() {
+      let that = this;
       Indicator.open();
-      this.$axiosHttp.http(
-        {
-          url: this.$httpConfig.oldRecommendNewUrl,
+      that.$axiosHttp.http({
+          url: that.$httpConfig.UserBaseInfoUrl,
           params: {},
           method: "POST"
-        },
-        res => {
-          //接口成功0000
-          Indicator.close(); //调取成功后关闭加载圈
-          // if (json.data.recommendable == 1) {
-          //   // 未实名认证，提示去认证
-          // } else {
-          //   // 已实名认证
-          //   aesEncrypt = json.data.aesEncrypt;
-          //   //拼分享出去的链接
-          //   shareUrl =
-          //     activeUrl +
-          //     "&shareCustomerNo=" +
-          //     that.customerNo +
-          //     "&shareEmpCode=" +
-          //     num;
-            // 生成二维码
-            that.createQRcode(shareUrl);
-          // }
-        },
-        res => {
+        }, res => { //接口成功0000
+          that.beseInfo = res.data.data //用户信息赋值
+          console.log('that.beseInfo',that.beseInfo.name)
+          that.getOldNewData() //有用户信息之后调用老带新接口
+        }, res => {
           // 接口错误4000
           Indicator.close();
-          let message = res.data.message
-            ? res.data.message
-            : "系统开小差啦，请联系系统管理员";
+          let message = res.data.message ? res.data.message : "系统开小差啦，请联系系统管理员";
           MessageBox("提示", message);
-        },
-        res => {
+        }, res => {
           // 接口返回1000
           Indicator.close();
         }
       );
+    },
+    // 获取老带新接口数据
+    getOldNewData() {
+      let that = this;
+      that.$axiosHttp.http({
+          url: that.$httpConfig.oldRecommendNewUrl,
+          params: that.managerName.empNo || '', //理财师工号
+          method: "POST"
+        }, res => { //接口成功0000
+          let data = res.data.data
+          if (data.recommendable == 1) {
+          //未实名认证，提示去认证
+            that.isShowCode = false 
+            Toast({
+              message: '完成实名认证后才可以推荐好友哦',
+              className: 'toast',
+            });
+          } else {
+            // 已实名认证
+            that.isShowCode = true
+            that.aesEncrypt = data.aesEncrypt;
+            //拼分享出去的链接+客户编号+选择的理财师编号
+            that.shareUrl = that.activeUrl + "&shareCustomerNo=" + that.beseInfo.customerNo + "&shareEmpCode=" + that.managerName.empNo;
+            // 生成二维码
+            that.createQRcode();
+          }
+        }, res => {
+          // 接口错误4000
+          Indicator.close();
+          let message = res.data.message ? res.data.message : "系统开小差啦，请联系系统管理员";
+          MessageBox("提示", message);
+        }, res => {
+          // 接口返回1000
+          Indicator.close();
+        }
+      );
+    },
+    // 获取理财师列表
+    getCustBro() {
+      let that = this;
+      that.$axiosHttp.http({
+          url: that.$httpConfig.custBroUrl,
+          data: {
+            fundType: "0"
+          },
+          method: "POST"
+        }, res => { //接口成功0000
+          let data = res.data
+          let existMain = data.data.existMain
+          that.managerList = data.data.advisor
+          if (existMain == 0 && that.managerList.length > 1) {
+            that.isChoose = true;
+          }else if(that.managerList.length = 1){
+            that.managerName = that.managerList[0]
+            that.isChoose = false
+          }
+        }, res => {
+          // 接口错误4000
+          Indicator.close();
+          let message = data.message ? data.message : "系统开小差啦，请联系系统管理员";
+          MessageBox("提示", message);
+          // 未获取到理财师，把分享按钮至为不可点击，问UI要图
+        }, res => {
+          // 接口返回1000
+          Indicator.close();
+        }
+      );
+    },
+    // 获取微信分享内容接口
+    getshareContent() {
+      let that = this;
+      that.$axiosHttp.http({
+          url: that.$httpConfig.shareContentUrl,
+          params: {
+            category: "appShareOldAndNew", //类型（标志位）
+            groupType: '', //组类型
+            curPage: "1", //当前页
+            pageSize: "1" //每页记录数
+          },
+          method: "POST"
+        }, res => { //接口成功0000
+          that.wxShareContent = res.data.data.pageList[0]
+          console.log(res.data.data.pageList[0])
+        }, res => {
+          // 接口错误4000
+          Indicator.close();
+          let message = res.data.message ? res.data.message : "系统开小差啦，请联系系统管理员";
+          MessageBox("提示", message);
+        }, res => {
+          // 接口返回1000
+          Indicator.close();
+        }
+      );
+    },
+    // 分享（type=1点击分享朋友圈   ，type=2点击分享给好友）
+    goToShare(type){
+      let that=this
+      let isAndroid = that.isAndroid
+      let obj={
+        'type': type,     // auto 原生自己分享框  wechatMoments 朋友圈   friends 朋友
+        'businessType': 'ldx',   //life,业务类型
+        'title': that.wxShareContent.title?that.wxShareContent.title:"",    //标题
+        'des':'邀请好友，分享精彩',   //简介
+        'link': that.shareUrl?that.shareUrl:'',   //链接
+        'img':that.wxShareContent.imageUrlApp?that.wxShareContent.imageUrlApp:"",   // 图标
+			}
+      if(type=='wechatMoments'){ //分享至朋友圈
+      console.log("朋友圈",obj)
+				if(that.isAndroid){ //如果安卓手机用原有方法，如果是苹果则使用wk
+					window.jsObj.wxShareSend(JSON.stringify(obj))
+				}else{
+					window.webkit.messageHandlers.goToSharePyq.postMessage(obj)
+				}
+      }else{
+        console.log("好友",obj)
+        if(that.isAndroid){ //如果安卓手机用原有方法，如果是苹果则使用wk
+					window.jsObj.wxShareSend(JSON.stringify(obj))
+				}else{
+					window.webkit.messageHandlers.goToShareFriend.postMessage(obj)
+				}
+      }
     },
     // 点击关闭页面
     closePage() {
@@ -164,6 +254,7 @@ export default {
     // 点击切换理财师，弹出理财师弹框
     switchManager() {
       this.isShowList = true;
+      console.log('点击切换理财师',this.isShowList)
     },
     // 点击选择理财师
     chooseManager(item) {
@@ -173,7 +264,20 @@ export default {
     //点击取消，关闭理财师选择列表
     cancel() {
       this.isShowList = false;
-    }
+    },
+    // 生成二维码
+    createQRcode() {
+      let that=this
+      if(!that.shareUrl) return
+      console.log(that.shareUrl,'shareUrl')
+      let qrcode = new QRCode(that.$refs.qrCodeUrl, {
+        text: that.shareUrl, // 需要转换为二维码的内容
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      Indicator.close();
+    },
   }
 };
 </script>
@@ -235,7 +339,7 @@ export default {
     .share-code {
       width: 10.75rem;
       height: 10.75rem;
-      background: #ffffff;
+      /* background: #ffffff; */
       margin: 0 auto 1.35rem;
       position: relative;
       /* padding-top:.25rem; */
@@ -312,7 +416,7 @@ export default {
       margin: 0.9rem auto 0.25rem;
     }
     .pyq-btn {
-      width: 7.68rem;
+      width: 7.75rem;
       height: 100%;
       > span {
         font-weight: 400;
@@ -402,5 +506,11 @@ export default {
     top: 0;
     z-index: 2;
   }
+}
+/* 弹出框 */
+.toast{
+  font-size: .7rem;
+  display: inline-block;
+  word-break: keep-all
 }
 </style>

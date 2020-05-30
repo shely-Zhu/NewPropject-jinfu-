@@ -15,6 +15,12 @@ var urlStrs = {
 
     // 老带新，微信邀请好友
     oldRecommendNewUrl: urlWebhttp + '/account/oldRecommendNew',
+    // 查询用户基本信息
+    UserBaseInfoUrl: urlWebhttp + '/account/queryUserBaseInfo',
+    // 获取理财师列表
+    custBroUrl: urlWebhttp + '/account/custBroRelQuery',
+    // 获取微信分享内容
+    shareContentUrl: urlWebhttp + '/content/frontend/findContentByCategory',
 
     // -------理财---------
     // 管理人详情
