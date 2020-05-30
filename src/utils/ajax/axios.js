@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "../../router";
 // import tipAction from '../../components/otherComponents/tipAction/tipAction';
 
 let instance = axios.create({
@@ -13,8 +14,11 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(data => {
     var status=data.data.status;
     if(status=='4007'){//登录失效
-      // 跳转到临时登录页，原生通过拦截地址跳转到原生的登录
-      window.location.href = '#/login';
+      // 跳转到临时登录页，原生通过拦截地址跳转到原生的登录(/login)
+      router.replace({
+        path:'login',
+        query:{redirect:router.currentRoute.fullPath}
+      })
     }
     else
     {

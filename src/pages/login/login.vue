@@ -60,7 +60,13 @@ export default {
           "operator": "1"
         },
       },(res) => {
-        console.log(res)
+        if(this.$route.query.redirect){
+          console.log(this.$route.query.redirect)
+          this.$router.push({path:decodeURIComponent(this.$route.query.redirect)})
+          console.log(res)
+        }else{
+          this.$router.go(-1)
+        }
       });
     }
   }
