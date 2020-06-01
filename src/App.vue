@@ -18,9 +18,11 @@
 
 <script>
 
-import "./assets/css/hrm/common.scss";
+import "./assets/css/common/common.scss";
 
-import "./assets/css/hrm/app.scss";
+import "./assets/css/common/app.scss";
+
+import "./utils/adaptation_750ui.js";
 
 // 页面标题
 import pageTitle from "./components/common/pageTitle"
