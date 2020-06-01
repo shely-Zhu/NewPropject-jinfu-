@@ -4,14 +4,11 @@ import Router from 'vue-router'
 // 任务管理-任务详情
 const Index = r => require.ensure([], () => r(require('@/components/index.vue')), 'chunkname1');
 
-//任务管理首页模块
-const ManagementIndex = r => require.ensure([], () => r(require('@/components/managementIndex.vue')), 'chunkname3');
-
 // 邀请好友
-const inviteFriends = r => require.ensure([], () => r(require('@/pages/mine/inviteFriends.vue')), 'chunkname4');
+const inviteFriends = r => require.ensure([], () => r(require('@/pages/mine/inviteFriends.vue')), 'chunkname3');
 
 // 理财-管理人详情
-const managerDetail = r => require.ensure([], () => r(require('@/pages/manage/managerDetail.vue')), 'chunkname5');
+const managerDetail = r => require.ensure([], () => r(require('@/pages/manage/managerDetail.vue')), 'chunkname4');
 
 // 会员活动列表
 const memberActivitiesList = r => require.ensure([], () => r(require('@/pages/memberClub/memberActivitiesList.vue')), 'chunkname5');
@@ -27,7 +24,10 @@ const membershipDetails = r => require.ensure([], () => r(require('@/pages/mine/
 const aboutSecret = r => require.ensure([], () => r(require('@/pages/mine/aboutSecret.vue')), 'chunkname8');
 // 我的-设置-关于-服务协议
 const aboutServiceAgreement= r => require.ensure([], () => r(require('@/pages/mine/aboutServiceAgreement.vue')), 'chunkname9');
-const login = r => require.ensure([], () => r(require('@/pages/login/login.vue')), 'chunkname9');
+const login = r => require.ensure([], () => r(require('@/pages/login/login.vue')), 'chunkname10');
+
+// 会员活动详情
+const memberActivitiesDetail = r => require.ensure([], () => r(require('@/pages/memberClub/memberActivitiesDetail.vue')), 'chunkname11');
 
 Vue.use(Router)
 
@@ -50,15 +50,6 @@ export default new Router({
         title: '登录',
         keepAlive: true
       },
-    },
-    {
-      path: '/ManagementIndex',
-      name: 'ManagementIndex',
-      component: ManagementIndex,
-      meta: {
-        title: '会员权益',
-        keepAlive: true
-      }
     },
     {
       path: '/inviteFriends',
@@ -86,7 +77,16 @@ export default new Router({
         title: '会员活动列表',
         keepAlive: true
       }
-    },    
+    },
+    {
+      path:'/memberActivitiesDetail',
+      name: 'memberActivitiesDetail',
+      component: memberActivitiesDetail,
+      meta: {
+        title: '会员活动详情',
+        keepAlive: true
+      }
+    },
     {
       path:'/membershipDetails',
       name: 'membershipDetails',

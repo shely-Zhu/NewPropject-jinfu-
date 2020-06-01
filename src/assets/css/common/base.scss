@@ -56,7 +56,7 @@ html,body{
 	
 }
 /*==计算以下font-size值 375*40/750==*/
-html { font-size: 40px; }
+html { font-size: 100px; }
 @media (min-width: 320px){html{font-size: 15.8px;} }
 @media (min-width: 360px){html{font-size: 19.2px;} }/*安卓用到的*/
 @media (min-width: 375px){html{font-size: 20px;} } /*6用到的*/

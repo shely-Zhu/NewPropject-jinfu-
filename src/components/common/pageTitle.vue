@@ -50,11 +50,22 @@ export default {
                 type: String,
                 default: ""
             },
+            default: ()=>{
+                return {
+                    needBorder: true,
+                    needProcessSelf: "",
+                    backType: ""
+                }
+            }
         },
     },
     data() {
         return {
         }
+    },
+    mounted(){
+        console.log(this.headerSetting);
+        
     },
     methods: {
         // desc: 点击事件的处理

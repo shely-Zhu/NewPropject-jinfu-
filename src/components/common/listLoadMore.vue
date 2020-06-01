@@ -48,7 +48,9 @@ export default {
   props: {
     settings: {//组件设置参数
       type: Object,
-      default: {},
+      default: ()=>{
+        {}
+      },
       // loadType: {
       //   //加载类型，默认支持下拉刷新和上拉加载。 type=onlyLoadMore：只支持上拉加载更多。type=onlyRefresh：只支持上拉刷新
       //   type: String,
@@ -137,7 +139,12 @@ export default {
 
   mounted() {
     //设置组件高度 默认为页面高度减去pageTitle高度
-    this.wrapperHeight = this.settings.height? this.settings.height: document.documentElement.clientHeight - 88;
+    if (this.settings && this.settings.height){
+      this.wrapperHeight = this.settings.height;
+    } else {
+      this.wrapperHeight = document.documentElement.clientHeight - 88;
+    }
+    
   }
 };
 </script>
