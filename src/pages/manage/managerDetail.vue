@@ -97,7 +97,7 @@ export default {
         {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
         {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},
         {img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'},{img:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3689483593,2509482904&fm=26&gp=0.jpg',title:'标题',time:'2020-09-09'}
-      ],
+      ], //板块列表
       isFixed:false,//是否固定tab的类名
       isSticky:false, //是否粘性定位的class
       isloadMore:false, //是否可以上拉加载
@@ -114,13 +114,12 @@ export default {
         foundTime:'2020-05-15',
         managerScale:"管理规模",
         strategy:"核心策略"
-      }
+      },
     };
   },
   components: {pageTitle,loadMore,bottomLine,defaultImage},
   mounted() {
     this.getManagerDetail()
-    this.getPlateData()
     //判断苹果和安卓
     if( window.appIsIOS ){
       this.isSticky = true;
@@ -151,8 +150,8 @@ export default {
           },
           method: "POST"
         },res => { //接口成功0000
-
-          Indicator.close(); //调取成功后关闭加载圈
+          
+          this.getPlateData()
         },res => { // 接口错误4000
           Indicator.close();
           let message = res.data.message ? res.data.message : "系统开小差啦，请联系系统管理员";
@@ -172,7 +171,7 @@ export default {
         },
         method: "POST"
       },res => { //接口成功0000
-        
+
         Indicator.close(); //调取成功后关闭加载圈
       },res => { // 接口错误4000
         Indicator.close();
