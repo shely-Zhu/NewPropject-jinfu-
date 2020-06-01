@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js --env 0",
-    "local":"node build/build.js --env 1",
+    "local": "node build/build.js --env 1",
     "testing": "node build/build.js --env 2",
     "pre": "node build/build.js --env 3",
     "prod": "node build/build.js --env 4"

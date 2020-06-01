@@ -14,7 +14,11 @@
         placeholder="搜索">
       </mt-search>
     </page-title>
-
+    <!-- 选择城市页面 -->
+    <div class="activityCityBox">
+      <span id="locationCity" data-code="" data-parentId=""></span>
+      <i class="iconfont">&#xe609;</i>
+    </div>
     <div class="nav">
       <div @click="active = 'tab-container1'" :class="{'selected': active == 'tab-container1'}">
         即将上线
